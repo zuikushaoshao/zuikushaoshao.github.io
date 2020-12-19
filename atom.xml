@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>酷少少</title>
+  
+  <subtitle>来是偶然 | 去是必然 | 尽其当然 | 顺其自然</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-12-19T09:27:42.895Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Ku Shaoshao</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringBoot整合MybatisPlus</title>
+    <link href="http://yoursite.com/posts/265a8413/"/>
+    <id>http://yoursite.com/posts/265a8413/</id>
+    <published>2020-12-12T03:26:58.000Z</published>
+    <updated>2020-12-19T09:27:42.895Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上篇只搭建了项目，这篇记录整合MybatisPlus,并且使用MybatisPlus代码生成。可以快速生成 Bean、Mapper、Mapper XML、Service、Controller 等各个模块的代码，极大的提升了开发效率。结尾使用Spring自带任务定时器。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="java学习笔记" scheme="http://yoursite.com/categories/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot+SSM</title>
+    <link href="http://yoursite.com/posts/47650d0d/"/>
+    <id>http://yoursite.com/posts/47650d0d/</id>
+    <published>2020-12-11T03:26:58.000Z</published>
+    <updated>2020-12-19T08:18:11.987Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记录下最简单的搭建SpringBoot的SSM，MySql数据库。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="java学习笔记" scheme="http://yoursite.com/categories/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建个人博客hexo+github</title>
+    <link href="http://yoursite.com/posts/412bc846/"/>
+    <id>http://yoursite.com/posts/412bc846/</id>
+    <published>2020-06-30T06:15:19.000Z</published>
+    <updated>2020-12-11T03:55:45.786Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章只要是搭建了hexo，基本是搭建博客网上一大堆，所有后面没有想法在写下去，后面主要写工作、学习，日常笔记。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
+    
+    
+      <category term="hexo+github搭建博客" scheme="http://yoursite.com/tags/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+  </entry>
+  
+</feed>
