@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="baidu-site-verification" content="bA5VlfwoNV" />
   <title>
-    SpringBoot+SSM |
+    MybatisPlus-多数据源 |
     
     酷少少</title>
   
@@ -35,7 +35,7 @@
 <body>
 <main class="content">
   <section class="outer">
-  <article id="post-搭建SpringBootSSM" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  <article id="post-2MybatisPlus使用多数据源" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
     <div class="article-inner">
         
@@ -43,7 +43,7 @@
                 
   
     <h1 class="article-title" itemprop="name">
-      SpringBoot+SSM
+      MybatisPlus-多数据源
     </h1>
   
   
@@ -56,8 +56,8 @@
 
                 
                     <div class="article-meta">
-                        <a href="/posts/47650d0d/" class="article-date">
-  <time datetime="2020-12-11T03:26:58.000Z" itemprop="datePublished">2020-12-11</time>
+                        <a href="/posts/89ce880/" class="article-date">
+  <time datetime="2020-12-26T01:13:20.000Z" itemprop="datePublished">2020-12-26</time>
 </a>
                             
   <div class="article-category">
@@ -83,36 +83,29 @@
                                             
 
                                                 
-                                                                    <p>记录下最简单的搭建SpringBoot的SSM，MySql数据库。</p>
+                                                                    <p>记录MybatisPlus使用多数据源</p>
 <a id="more"></a>
 
-<h1 id="1、创建项目"><a href="#1、创建项目" class="headerlink" title="1、创建项目"></a>1、创建项目</h1><h2 id="1-grimacing-跟着步骤直接看图-idea→File→Project…"><a href="#1-grimacing-跟着步骤直接看图-idea→File→Project…" class="headerlink" title="1.  :grimacing:跟着步骤直接看图 idea→File→Project…"></a>1.  :grimacing:跟着步骤直接看图 idea→File→Project…</h2><img src="\gallery\photos\springBootImages\1、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\2、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\3、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\4、newProject.jpg" alt=" " style="zoom:200%;" />
-
-<h2 id="2-项目结构"><a href="#2-项目结构" class="headerlink" title="2.项目结构"></a>2.项目结构</h2><img src="\gallery\photos\springBootImages\5、newProject.jpg" alt="项目结构" style="zoom:200%;" />
-
-<h2 id="3-检查idea设置-scream-如果是maven的同学看这里！"><a href="#3-检查idea设置-scream-如果是maven的同学看这里！" class="headerlink" title="3.检查idea设置(:scream:如果是maven的同学看这里！)"></a>3.检查idea设置(:scream:如果是maven的同学看这里！)</h2><p>:pensive:相信大家肯定对这一步有疑惑，我已经踩了好几次坑了,避免大家采坑。</p>
-<p>idea→setinngs…</p>
-<img src="\gallery\photos\springBootImages\6、newProject.jpg" alt="避免采坑" style="zoom:200%;" />
-
-<h1 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h1><h2 id="1-配置application-yml"><a href="#1-配置application-yml" class="headerlink" title="1.配置application.yml"></a>1.配置application.yml</h2><p>我习惯配置yml结尾，properties并无大大区别，如：name=张三</p>
-<p>首先修改文件结尾 idea快捷键Shift+F6  Refactor更改</p>
-<p>附上yml配置代码，同学可以直接粘贴使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8080 #项目启动端口号</span><br><span class="line">spring:</span><br><span class="line">  mvc:</span><br><span class="line">    view:</span><br><span class="line">      prefix: classpath:&#x2F;templates&#x2F;</span><br><span class="line">      suffix: .html </span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;test?useSSL&#x3D;false&amp;serverTimezone&#x3D;UTC&amp;useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8&amp;allowMultiQueries&#x3D;true&amp;serverTimezone&#x3D;Asia&#x2F;Shanghai</span><br><span class="line">    username: root</span><br><span class="line">    password: &#39;123456&#39; #如果有符号加上单引号</span><br><span class="line">    # 连接池配置 最小空闲连接数量</span><br><span class="line">    minimum-idle: 5</span><br><span class="line">    # 空闲连接存活最大时间，默认600000（10分钟）</span><br><span class="line">    idle-timeout: 180000</span><br><span class="line">    # 连接池最大连接数，</span><br><span class="line">    maximum-pool-size: 10</span><br><span class="line">    # 此属性控制从池返回的连接的默认自动提交行为,默认值：true</span><br><span class="line">    auto-commit: true</span><br><span class="line">    # 连接池名称</span><br><span class="line">    pool-name: masterHikariCP</span><br><span class="line">    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟</span><br><span class="line">    max-lifetime: 1800000</span><br><span class="line">    # 数据库连接超时时间,默认30秒，即30000</span><br><span class="line">    connection-timeout: 30000</span><br><span class="line">    connection-test-query: SELECT 1</span><br><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mappers&#x2F;*.xml #xml文件</span><br><span class="line">  type-aliases-package: com.exaple.bean #指定扫描实体类</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-配置SpringBoot启动类添加扫描mapper类"><a href="#2-配置SpringBoot启动类添加扫描mapper类" class="headerlink" title="2.配置SpringBoot启动类添加扫描mapper类"></a>2.配置SpringBoot启动类添加扫描mapper类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@MapperScan(&quot;com.example.mapper&quot;)</span><br></pre></td></tr></table></figure>
 
 
+<h1 id="1、添加配置"><a href="#1、添加配置" class="headerlink" title="1、添加配置"></a>1、添加配置</h1><h2 id="1、添加-代码生成器-依赖，我这里使用的默认模板"><a href="#1、添加-代码生成器-依赖，我这里使用的默认模板" class="headerlink" title="1、添加 代码生成器 依赖，我这里使用的默认模板"></a>1、添加 代码生成器 依赖，我这里使用的默认模板</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--动态数据源--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dynamic-datasource-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="3、搭建完成"><a href="#3、搭建完成" class="headerlink" title="3、搭建完成"></a>3、搭建完成</h1><p>搭建SpringBoot完成，最终效果图附上:smile:</p>
-<img src="\gallery\photos\springBootImages\7、newProject.jpg" alt="最终效果" style="zoom:200%;" />
+<h2 id="2、application-yml配置"><a href="#2、application-yml配置" class="headerlink" title="2、application.yml配置"></a>2、application.yml配置</h2><p>添加多数据源，primary指定默认数据源。(注意：如果设置了线程池名称，那么需要指定线程池的名称作为选择。)</p>
+<p>官网指定yml配置结构</p>
+<img src="\gallery\photos\springBootImages\mybatisPlus\官网yml结构.jpg" alt=" " style="zoom:200%;" />
+
+<p>配置yml文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    dynamic:</span><br><span class="line">      primary: master #设置默认的数据源或者数据源组,默认值即为master</span><br><span class="line">      strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.</span><br><span class="line">      datasource:</span><br><span class="line">        master:</span><br><span class="line">          url: jdbc:mysql://127.0.0.1:3306/smsTest1?useSSL=false&amp;serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;serverTimezone=Asia/Shanghai</span><br><span class="line">          username: root</span><br><span class="line">          password: 123456</span><br><span class="line">          driver-class-name: com.mysql.jdbc.Driver # 3.2.0开始支持SPI可省略此配置</span><br><span class="line">        slave:</span><br><span class="line">          url: jdbc:mysql://127.0.0.1:3306/smsTest2?useSSL=false&amp;serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;serverTimezone=Asia/Shanghai</span><br><span class="line">          username: root</span><br><span class="line">          password: 123456</span><br><span class="line">          driver-class-name: com.mysql.jdbc.Driver # 3.2.0开始支持SPI可省略此配置</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="2、使用注解"><a href="#2、使用注解" class="headerlink" title="2、使用注解"></a>2、使用注解</h1><p>使用 <strong>@DS</strong> 切换数据源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询slave所有用户信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@DS</span>(<span class="string">"slave"</span>) <span class="comment">//dsName可以为组名也可以为具体某个库的名称</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getSlaveAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.list();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />
                                                                         
                                     </div>
 										<!-- 分享屏蔽掉 <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/posts/47650d0d/" data-id="ckj5c31xm000950fc6vrgen6z" class="article-share-link">
+                                        <a data-url="http://yoursite.com/posts/89ce880/" data-id="ckj5c31xb000150fc5f8ud6cu" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -127,19 +120,10 @@
         
   <nav class="article-nav">
     
+    
       <a href="/posts/265a8413/" class="article-nav-link">
-        <strong class="article-nav-caption">前一篇</strong>
-        <div class="article-nav-title">
-          
-            SpringBoot整合MybatisPlus
-          
-        </div>
-      </a>
-    
-    
-      <a href="/posts/412bc846/" class="article-nav-link">
         <strong class="article-nav-caption">后一篇</strong>
-        <div class="article-nav-title">搭建个人博客hexo+github</div>
+        <div class="article-nav-title">SpringBoot整合MybatisPlus</div>
       </a>
     
   </nav>
