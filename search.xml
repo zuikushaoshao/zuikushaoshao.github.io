@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>搭建个人博客hexo+github</title>
+    <url>/posts/412bc846/</url>
+    <content><![CDATA[<p>这篇文章只要是搭建了hexo，基本是搭建博客网上一大堆，所有后面没有想法在写下去，后面主要写工作、学习，日常笔记。</p>
+<a id="more"></a>
+
+<h1 id="搭建需要准备"><a href="#搭建需要准备" class="headerlink" title="搭建需要准备"></a>搭建需要准备</h1><blockquote>
+<ul>
+<li>安装node.js(后续需要npm 下载插件)</li>
+<li>安装git，配置好git环境 </li>
+<li>github申请账号</li>
+<li>安装hexo</li>
+<li>hexo 与 github 部署</li>
+</ul>
+</blockquote>
+<h1 id="开始进入正题​-grimacing"><a href="#开始进入正题​-grimacing" class="headerlink" title="开始进入正题​ :grimacing:"></a>开始进入正题​ :grimacing:</h1><h2 id="1-node安装、git安装、github申请账号百度一大堆，略过略过。"><a href="#1-node安装、git安装、github申请账号百度一大堆，略过略过。" class="headerlink" title="1.node安装、git安装、github申请账号百度一大堆，略过略过。"></a>1.node安装、git安装、github申请账号百度一大堆，略过略过。</h2><img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_1.gif" alt=" " style="zoom:200%;" />
+
+<h2 id="2-安装hexo"><a href="#2-安装hexo" class="headerlink" title="2.安装hexo"></a>2.安装hexo</h2><p>在合适的磁盘中创建一个文件夹，我是在E盘建了了boke。</p>
+<p>进入文件夹，右击会出现Git Bash。</p>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_2.jpg" alt="" style="zoom:50%;" />
+
+<p>输入命令npm install hexo -g，回车，安装hexo。</p>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_3.jpg" style="zoom:75%;" />
+
+<p>输入hexo -v，检查hexo是否安装成功</p>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_4.jpg" alt="" style="zoom:50%;" />
+
+<p>输入hexo init 初始化该文件夹(我是第二次下载hexo，初始化不了，一直报错，就不截屏了:laughing:)<br>最后输入hexo s 启动服务，默认端口4000，如指定端口执行命令 hexo s -p 5000(注:端口号)</p>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_5.png" alt="" style="zoom:100%;" />
+
+<hr>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />
+
+<p>​                                                        <font color=red size=72>hexo搭建完成啦</font></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo+github搭建博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MybatisPlus-多数据源</title>
     <url>/posts/89ce880/</url>
     <content><![CDATA[<p>记录MybatisPlus使用多数据源</p>
@@ -79,48 +121,6 @@
       </categories>
       <tags>
         <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭建个人博客hexo+github</title>
-    <url>/posts/412bc846/</url>
-    <content><![CDATA[<p>这篇文章只要是搭建了hexo，基本是搭建博客网上一大堆，所有后面没有想法在写下去，后面主要写工作、学习，日常笔记。</p>
-<a id="more"></a>
-
-<h1 id="搭建需要准备"><a href="#搭建需要准备" class="headerlink" title="搭建需要准备"></a>搭建需要准备</h1><blockquote>
-<ul>
-<li>安装node.js(后续需要npm 下载插件)</li>
-<li>安装git，配置好git环境 </li>
-<li>github申请账号</li>
-<li>安装hexo</li>
-<li>hexo 与 github 部署</li>
-</ul>
-</blockquote>
-<h1 id="开始进入正题​-grimacing"><a href="#开始进入正题​-grimacing" class="headerlink" title="开始进入正题​ :grimacing:"></a>开始进入正题​ :grimacing:</h1><h2 id="1-node安装、git安装、github申请账号百度一大堆，略过略过。"><a href="#1-node安装、git安装、github申请账号百度一大堆，略过略过。" class="headerlink" title="1.node安装、git安装、github申请账号百度一大堆，略过略过。"></a>1.node安装、git安装、github申请账号百度一大堆，略过略过。</h2><img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_1.gif" alt=" " style="zoom:200%;" />
-
-<h2 id="2-安装hexo"><a href="#2-安装hexo" class="headerlink" title="2.安装hexo"></a>2.安装hexo</h2><p>在合适的磁盘中创建一个文件夹，我是在E盘建了了boke。</p>
-<p>进入文件夹，右击会出现Git Bash。</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_2.jpg" alt="" style="zoom:50%;" />
-
-<p>输入命令npm install hexo -g，回车，安装hexo。</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_3.jpg" style="zoom:75%;" />
-
-<p>输入hexo -v，检查hexo是否安装成功</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_4.jpg" alt="" style="zoom:50%;" />
-
-<p>输入hexo init 初始化该文件夹(我是第二次下载hexo，初始化不了，一直报错，就不截屏了:laughing:)<br>最后输入hexo s 启动服务，默认端口4000，如指定端口执行命令 hexo s -p 5000(注:端口号)</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_5.png" alt="" style="zoom:100%;" />
-
-<hr>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />
-
-<p>​                                                        <font color=red size=72>hexo搭建完成啦</font></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo+github搭建博客</tag>
       </tags>
   </entry>
   <entry>
