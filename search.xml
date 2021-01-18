@@ -43,6 +43,31 @@
       </tags>
   </entry>
   <entry>
+    <title>curl命令使用POST请求JSON数据</title>
+    <url>/posts/c7283069/</url>
+    <content><![CDATA[<p>项目中需要liunx调用接口把数据存储到数据库中，在使用curl请求，后台一直接受不到参数，这里记录下自己解决问题思路。</p>
+<a id="more"></a>
+
+<h3 id="1-错误代码以及错误curl命令。"><a href="#1-错误代码以及错误curl命令。" class="headerlink" title="1.错误代码以及错误curl命令。"></a>1.错误代码以及错误curl命令。</h3><p>linux中→’’←与→””←差别很大，一直测试一直测试，哭了-.-</p>
+<h4 id="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"><a href="#1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！" class="headerlink" title="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"></a>1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---报错信息---</span><br><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br><span class="line">HTTP&#x2F;1.1 415 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Sat, 16 Jan 2021 04:52:25 GMT</span><br><span class="line"></span><br><span class="line">&#123;&quot;timestamp&quot;:&quot;2021-01-16T04:52:25.446+0000&quot;,&quot;status&quot;:415,&quot;error&quot;:&quot;Unsupported Media Type&quot;,&quot;message&quot;:&quot;Content type &#39;application&#x2F;x-www-form-urlencoded&#39; not supported&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-需指定Content-type"><a href="#2-需指定Content-type" class="headerlink" title="2).需指定Content-type"></a>2).需指定Content-type</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 错误用法 我尝试改成Content-Type 还是会报错...</span><br><span class="line">&quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot;  </span><br><span class="line">正确用法，用&quot;&quot;包在linux中是解析变量，重点记下来，然后把json参数也改成双引号，</span><br><span class="line">发现可以进入到后台了,但是获取不到数据。</span><br><span class="line">&quot;Content-type:application&#x2F;json&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 style="color: red;">-- 改过之后的报错信息，要传JSON格式，脑瓜子一下就灵动了,JSON格式哦，哦~~~</h3>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &quot;&#123;mobiles:17602957806,applicationId:eabbix&#125;&quot; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume </span><br><span class="line">HTTP&#x2F;1.1 400  </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8 </span><br><span class="line">Transfer-Encoding: chunked Date: Sat, 16 Jan 2021 05:07:58 GMT </span><br><span class="line">Connection: </span><br><span class="line">close &#123;&quot;timestamp&quot;:&quot;2021-01-16T05:07:58.827+0000&quot;,&quot;status&quot;:400,&quot;error&quot;:&quot;BadRequest&quot;,&quot;message&quot;:&quot;JSON parse error: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name\n at [Source: (PushbackInputStream); line: 1, column: 3]&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-完整的正确命令，后台代码。"><a href="#2-完整的正确命令，后台代码。" class="headerlink" title="2.完整的正确命令，后台代码。"></a>2.完整的正确命令，后台代码。</h3><h4 id="1-curl命令"><a href="#1-curl命令" class="headerlink" title="1).curl命令"></a>1).curl命令</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;,&quot;content&quot;:&quot;fuwuqi迪加超人&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-后台post请求代码"><a href="#2-后台post请求代码" class="headerlink" title="2).后台post请求代码"></a>2).后台post请求代码</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@PostMapping(value &#x3D; &quot;&#x2F;saveSmsConsume&quot;, headers &#x3D; &quot;Accept&#x3D;application&#x2F;json;charset&#x3D;UTF-8&quot;) </span><br><span class="line">public Result saveSmsConsume(@RequestBody Outbox outbox) &#123;    </span><br><span class="line">try &#123;        </span><br><span class="line">return this.restTemplate.postForObject(&quot;http:&#x2F;&#x2F;sms-producer&#x2F;sms&#x2F;outbox&#x2F;saveSms&quot;, outbox, Result.class);    </span><br><span class="line">&#125; </span><br><span class="line">catch (Exception e) &#123;        </span><br><span class="line">logger.error(e);    </span><br><span class="line">&#125;    </span><br><span class="line">return ResultGenerator.genFailResult(&quot;存储失败&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux学习笔记</category>
+      </categories>
+      <tags>
+        <tag>linux命令学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MybatisPlus-多数据源</title>
     <url>/posts/89ce880/</url>
     <content><![CDATA[<p>记录MybatisPlus使用多数据源</p>
@@ -63,67 +88,6 @@
 <h1 id="2、使用注解"><a href="#2、使用注解" class="headerlink" title="2、使用注解"></a>2、使用注解</h1><p>使用 <strong>@DS</strong> 切换数据源。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询slave所有用户信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@DS</span>(<span class="string">"slave"</span>) <span class="comment">//dsName可以为组名也可以为具体某个库的名称</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getSlaveAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.list();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />]]></content>
-      <categories>
-        <category>java学习笔记</category>
-      </categories>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>curl命令使用POST请求JSON数据</title>
-    <url>/posts/c7283069/</url>
-    <content><![CDATA[<p>项目中需要liunx调用接口把数据存储到数据库中，在使用curl请求，后台一直接受不到参数，这里记录下自己解决问题思路。</p>
-<a id="more"></a>
-
-<h3 id="1-错误代码以及错误curl命令。"><a href="#1-错误代码以及错误curl命令。" class="headerlink" title="1.错误代码以及错误curl命令。"></a>1.错误代码以及错误curl命令。</h3><p>linux中→’’←与→””←差别很大，一直测试一直测试，哭了-.-</p>
-<h4 id="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"><a href="#1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！" class="headerlink" title="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"></a>1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---报错信息---</span><br><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br><span class="line">HTTP&#x2F;1.1 415 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Sat, 16 Jan 2021 04:52:25 GMT</span><br><span class="line"></span><br><span class="line">&#123;&quot;timestamp&quot;:&quot;2021-01-16T04:52:25.446+0000&quot;,&quot;status&quot;:415,&quot;error&quot;:&quot;Unsupported Media Type&quot;,&quot;message&quot;:&quot;Content type &#39;application&#x2F;x-www-form-urlencoded&#39; not supported&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-需指定Content-type"><a href="#2-需指定Content-type" class="headerlink" title="2).需指定Content-type"></a>2).需指定Content-type</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 错误用法 我尝试改成Content-Type 还是会报错...</span><br><span class="line">&quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot;  </span><br><span class="line">正确用法，用&quot;&quot;包在linux中是解析变量，重点记下来，然后把json参数也改成双引号，</span><br><span class="line">发现可以进入到后台了,但是获取不到数据。</span><br><span class="line">&quot;Content-type:application&#x2F;json&quot;</span><br></pre></td></tr></table></figure>
-
-<h5 style="color: red;">-- 改过之后的报错信息，要传JSON格式，脑瓜子一下就灵动了,JSON格式哦，哦~~~</h3>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &quot;&#123;mobiles:17602957806,applicationId:eabbix&#125;&quot; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume </span><br><span class="line">HTTP&#x2F;1.1 400  </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8 </span><br><span class="line">Transfer-Encoding: chunked Date: Sat, 16 Jan 2021 05:07:58 GMT </span><br><span class="line">Connection: </span><br><span class="line">close &#123;&quot;timestamp&quot;:&quot;2021-01-16T05:07:58.827+0000&quot;,&quot;status&quot;:400,&quot;error&quot;:&quot;BadRequest&quot;,&quot;message&quot;:&quot;JSON parse error: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name\n at [Source: (PushbackInputStream); line: 1, column: 3]&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-完整的正确命令，后台代码。"><a href="#2-完整的正确命令，后台代码。" class="headerlink" title="2.完整的正确命令，后台代码。"></a>2.完整的正确命令，后台代码。</h3><h4 id="1-curl命令"><a href="#1-curl命令" class="headerlink" title="1).curl命令"></a>1).curl命令</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;,&quot;content&quot;:&quot;fuwuqi迪加超人&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-后台post请求代码"><a href="#2-后台post请求代码" class="headerlink" title="2).后台post请求代码"></a>2).后台post请求代码</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@PostMapping(value &#x3D; &quot;&#x2F;saveSmsConsume&quot;, headers &#x3D; &quot;Accept&#x3D;application&#x2F;json;charset&#x3D;UTF-8&quot;) public Result saveSmsConsume(@RequestBody Outbox outbox) &#123;    try &#123;        return this.restTemplate.postForObject(&quot;http:&#x2F;&#x2F;sms-producer&#x2F;sms&#x2F;outbox&#x2F;saveSms&quot;, outbox, Result.class);    &#125; catch (Exception e) &#123;        logger.error(e);    &#125;    return ResultGenerator.genFailResult(&quot;存储失败&quot;); &#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>linux学习笔记</category>
-      </categories>
-      <tags>
-        <tag>linux命令学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringBoot+SSM</title>
-    <url>/posts/47650d0d/</url>
-    <content><![CDATA[<p>记录下最简单的搭建SpringBoot的SSM，MySql数据库。</p>
-<a id="more"></a>
-
-<h1 id="1、创建项目"><a href="#1、创建项目" class="headerlink" title="1、创建项目"></a>1、创建项目</h1><h2 id="1-grimacing-跟着步骤直接看图-idea→File→Project…"><a href="#1-grimacing-跟着步骤直接看图-idea→File→Project…" class="headerlink" title="1.  :grimacing:跟着步骤直接看图 idea→File→Project…"></a>1.  :grimacing:跟着步骤直接看图 idea→File→Project…</h2><img src="\gallery\photos\springBootImages\1、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\2、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\3、newProject.jpg" alt=" " style="zoom:200%;" />
-<img src="\gallery\photos\springBootImages\4、newProject.jpg" alt=" " style="zoom:200%;" />
-
-<h2 id="2-项目结构"><a href="#2-项目结构" class="headerlink" title="2.项目结构"></a>2.项目结构</h2><img src="\gallery\photos\springBootImages\5、newProject.jpg" alt="项目结构" style="zoom:200%;" />
-
-<h2 id="3-检查idea设置-scream-如果是maven的同学看这里！"><a href="#3-检查idea设置-scream-如果是maven的同学看这里！" class="headerlink" title="3.检查idea设置(:scream:如果是maven的同学看这里！)"></a>3.检查idea设置(:scream:如果是maven的同学看这里！)</h2><p>:pensive:相信大家肯定对这一步有疑惑，我已经踩了好几次坑了,避免大家采坑。</p>
-<p>idea→setinngs…</p>
-<img src="\gallery\photos\springBootImages\6、newProject.jpg" alt="避免采坑" style="zoom:200%;" />
-
-<h1 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h1><h2 id="1-配置application-yml"><a href="#1-配置application-yml" class="headerlink" title="1.配置application.yml"></a>1.配置application.yml</h2><p>我习惯配置yml结尾，properties并无大大区别，如：name=张三</p>
-<p>首先修改文件结尾 idea快捷键Shift+F6  Refactor更改</p>
-<p>附上yml配置代码，同学可以直接粘贴使用</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8080 #项目启动端口号</span><br><span class="line">spring:</span><br><span class="line">  mvc:</span><br><span class="line">    view:</span><br><span class="line">      prefix: classpath:&#x2F;templates&#x2F;</span><br><span class="line">      suffix: .html </span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;test?useSSL&#x3D;false&amp;serverTimezone&#x3D;UTC&amp;useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8&amp;allowMultiQueries&#x3D;true&amp;serverTimezone&#x3D;Asia&#x2F;Shanghai</span><br><span class="line">    username: root</span><br><span class="line">    password: &#39;123456&#39; #如果有符号加上单引号</span><br><span class="line">    # 连接池配置 最小空闲连接数量</span><br><span class="line">    minimum-idle: 5</span><br><span class="line">    # 空闲连接存活最大时间，默认600000（10分钟）</span><br><span class="line">    idle-timeout: 180000</span><br><span class="line">    # 连接池最大连接数，</span><br><span class="line">    maximum-pool-size: 10</span><br><span class="line">    # 此属性控制从池返回的连接的默认自动提交行为,默认值：true</span><br><span class="line">    auto-commit: true</span><br><span class="line">    # 连接池名称</span><br><span class="line">    pool-name: masterHikariCP</span><br><span class="line">    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟</span><br><span class="line">    max-lifetime: 1800000</span><br><span class="line">    # 数据库连接超时时间,默认30秒，即30000</span><br><span class="line">    connection-timeout: 30000</span><br><span class="line">    connection-test-query: SELECT 1</span><br><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mappers&#x2F;*.xml #xml文件</span><br><span class="line">  type-aliases-package: com.exaple.bean #指定扫描实体类</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-配置SpringBoot启动类添加扫描mapper类"><a href="#2-配置SpringBoot启动类添加扫描mapper类" class="headerlink" title="2.配置SpringBoot启动类添加扫描mapper类"></a>2.配置SpringBoot启动类添加扫描mapper类</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@MapperScan(&quot;com.example.mapper&quot;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="3、搭建完成"><a href="#3、搭建完成" class="headerlink" title="3、搭建完成"></a>3、搭建完成</h1><p>搭建SpringBoot完成，最终效果图附上:smile:</p>
-<img src="\gallery\photos\springBootImages\7、newProject.jpg" alt="最终效果" style="zoom:200%;" />
 <img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />]]></content>
       <categories>
         <category>java学习笔记</category>
@@ -176,6 +140,42 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Scheduled</span>(cron = <span class="string">"0 */1 * * * ?"</span>)</span><br></pre></td></tr></table></figure>
 <p>cron格式网上一大堆，每分钟执行一次</p>
 <p><a href="https://crontab.guru/#05_*/1_*_*_*"  target="_blank">验证cron网站</a></p>
+<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot+SSM</title>
+    <url>/posts/47650d0d/</url>
+    <content><![CDATA[<p>记录下最简单的搭建SpringBoot的SSM，MySql数据库。</p>
+<a id="more"></a>
+
+<h1 id="1、创建项目"><a href="#1、创建项目" class="headerlink" title="1、创建项目"></a>1、创建项目</h1><h2 id="1-grimacing-跟着步骤直接看图-idea→File→Project…"><a href="#1-grimacing-跟着步骤直接看图-idea→File→Project…" class="headerlink" title="1.  :grimacing:跟着步骤直接看图 idea→File→Project…"></a>1.  :grimacing:跟着步骤直接看图 idea→File→Project…</h2><img src="\gallery\photos\springBootImages\1、newProject.jpg" alt=" " style="zoom:200%;" />
+<img src="\gallery\photos\springBootImages\2、newProject.jpg" alt=" " style="zoom:200%;" />
+<img src="\gallery\photos\springBootImages\3、newProject.jpg" alt=" " style="zoom:200%;" />
+<img src="\gallery\photos\springBootImages\4、newProject.jpg" alt=" " style="zoom:200%;" />
+
+<h2 id="2-项目结构"><a href="#2-项目结构" class="headerlink" title="2.项目结构"></a>2.项目结构</h2><img src="\gallery\photos\springBootImages\5、newProject.jpg" alt="项目结构" style="zoom:200%;" />
+
+<h2 id="3-检查idea设置-scream-如果是maven的同学看这里！"><a href="#3-检查idea设置-scream-如果是maven的同学看这里！" class="headerlink" title="3.检查idea设置(:scream:如果是maven的同学看这里！)"></a>3.检查idea设置(:scream:如果是maven的同学看这里！)</h2><p>:pensive:相信大家肯定对这一步有疑惑，我已经踩了好几次坑了,避免大家采坑。</p>
+<p>idea→setinngs…</p>
+<img src="\gallery\photos\springBootImages\6、newProject.jpg" alt="避免采坑" style="zoom:200%;" />
+
+<h1 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h1><h2 id="1-配置application-yml"><a href="#1-配置application-yml" class="headerlink" title="1.配置application.yml"></a>1.配置application.yml</h2><p>我习惯配置yml结尾，properties并无大大区别，如：name=张三</p>
+<p>首先修改文件结尾 idea快捷键Shift+F6  Refactor更改</p>
+<p>附上yml配置代码，同学可以直接粘贴使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8080 #项目启动端口号</span><br><span class="line">spring:</span><br><span class="line">  mvc:</span><br><span class="line">    view:</span><br><span class="line">      prefix: classpath:&#x2F;templates&#x2F;</span><br><span class="line">      suffix: .html </span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;test?useSSL&#x3D;false&amp;serverTimezone&#x3D;UTC&amp;useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8&amp;allowMultiQueries&#x3D;true&amp;serverTimezone&#x3D;Asia&#x2F;Shanghai</span><br><span class="line">    username: root</span><br><span class="line">    password: &#39;123456&#39; #如果有符号加上单引号</span><br><span class="line">    # 连接池配置 最小空闲连接数量</span><br><span class="line">    minimum-idle: 5</span><br><span class="line">    # 空闲连接存活最大时间，默认600000（10分钟）</span><br><span class="line">    idle-timeout: 180000</span><br><span class="line">    # 连接池最大连接数，</span><br><span class="line">    maximum-pool-size: 10</span><br><span class="line">    # 此属性控制从池返回的连接的默认自动提交行为,默认值：true</span><br><span class="line">    auto-commit: true</span><br><span class="line">    # 连接池名称</span><br><span class="line">    pool-name: masterHikariCP</span><br><span class="line">    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟</span><br><span class="line">    max-lifetime: 1800000</span><br><span class="line">    # 数据库连接超时时间,默认30秒，即30000</span><br><span class="line">    connection-timeout: 30000</span><br><span class="line">    connection-test-query: SELECT 1</span><br><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mappers&#x2F;*.xml #xml文件</span><br><span class="line">  type-aliases-package: com.exaple.bean #指定扫描实体类</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-配置SpringBoot启动类添加扫描mapper类"><a href="#2-配置SpringBoot启动类添加扫描mapper类" class="headerlink" title="2.配置SpringBoot启动类添加扫描mapper类"></a>2.配置SpringBoot启动类添加扫描mapper类</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@MapperScan(&quot;com.example.mapper&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="3、搭建完成"><a href="#3、搭建完成" class="headerlink" title="3、搭建完成"></a>3、搭建完成</h1><p>搭建SpringBoot完成，最终效果图附上:smile:</p>
+<img src="\gallery\photos\springBootImages\7、newProject.jpg" alt="最终效果" style="zoom:200%;" />
 <img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />]]></content>
       <categories>
         <category>java学习笔记</category>
