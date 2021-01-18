@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-12-26T06:39:18.579Z</updated>
+  <updated>2021-01-16T06:14:47.682Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>curl命令使用POST请求JSON数据</title>
+    <link href="http://yoursite.com/posts/c7283069/"/>
+    <id>http://yoursite.com/posts/c7283069/</id>
+    <published>2021-01-16T05:58:38.261Z</published>
+    <updated>2021-01-16T06:14:47.682Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;项目中需要liunx调用接口把数据存储到数据库中，在使用curl请求，后台一直接受不到参数，这里记录下自己解决问题思路。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="linux学习笔记" scheme="http://yoursite.com/categories/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="linux命令学习" scheme="http://yoursite.com/tags/linux%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>MybatisPlus-多数据源</title>

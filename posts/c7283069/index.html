@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+    <meta name="keywords" content="3333">
+  
+  
+    <meta name="description" content="222">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="baidu-site-verification" content="bA5VlfwoNV" />
+  <title>
+    curl命令使用POST请求JSON数据 |
+    
+    酷少少</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="酷少少" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-linux/curl命令使用POST请求JSON数据" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      curl命令使用POST请求JSON数据
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/posts/c7283069/" class="article-date">
+  <time datetime="2021-01-16T05:58:38.261Z" itemprop="datePublished">2021-01-16</time>
+</a>
+                            
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">linux学习笔记</a>
+  </div>
+
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+                                            
+
+                                                
+                                                                    <p>项目中需要liunx调用接口把数据存储到数据库中，在使用curl请求，后台一直接受不到参数，这里记录下自己解决问题思路。</p>
+<a id="more"></a>
+
+<h3 id="1-错误代码以及错误curl命令。"><a href="#1-错误代码以及错误curl命令。" class="headerlink" title="1.错误代码以及错误curl命令。"></a>1.错误代码以及错误curl命令。</h3><p>linux中→’’←与→””←差别很大，一直测试一直测试，哭了-.-</p>
+<h4 id="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"><a href="#1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！" class="headerlink" title="1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！"></a>1）报错信息，在后台进入底层代码查看，后台请求中也把MediaType设置，但没什么卵用，最后注释掉实践也成功可以拿到数据，重点是headers表头设置！！！</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---报错信息---</span><br><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br><span class="line">HTTP&#x2F;1.1 415 </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Date: Sat, 16 Jan 2021 04:52:25 GMT</span><br><span class="line"></span><br><span class="line">&#123;&quot;timestamp&quot;:&quot;2021-01-16T04:52:25.446+0000&quot;,&quot;status&quot;:415,&quot;error&quot;:&quot;Unsupported Media Type&quot;,&quot;message&quot;:&quot;Content type &#39;application&#x2F;x-www-form-urlencoded&#39; not supported&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-需指定Content-type"><a href="#2-需指定Content-type" class="headerlink" title="2).需指定Content-type"></a>2).需指定Content-type</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 错误用法 我尝试改成Content-Type 还是会报错...</span><br><span class="line">&quot;&#39;Content-type&#39;:&#39;application&#x2F;json&#39;&quot;  </span><br><span class="line">正确用法，用&quot;&quot;包在linux中是解析变量，重点记下来，然后把json参数也改成双引号，</span><br><span class="line">发现可以进入到后台了,但是获取不到数据。</span><br><span class="line">&quot;Content-type:application&#x2F;json&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 style="color: red;">-- 改过之后的报错信息，要传JSON格式，脑瓜子一下就灵动了,JSON格式哦，哦~~~</h3>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@MiWiFi-R3-srv nginx-1.18.0]# curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &quot;&#123;mobiles:17602957806,applicationId:eabbix&#125;&quot; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume </span><br><span class="line">HTTP&#x2F;1.1 400  </span><br><span class="line">Content-Type: application&#x2F;json;charset&#x3D;UTF-8 </span><br><span class="line">Transfer-Encoding: chunked Date: Sat, 16 Jan 2021 05:07:58 GMT </span><br><span class="line">Connection: </span><br><span class="line">close &#123;&quot;timestamp&quot;:&quot;2021-01-16T05:07:58.827+0000&quot;,&quot;status&quot;:400,&quot;error&quot;:&quot;BadRequest&quot;,&quot;message&quot;:&quot;JSON parse error: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character (&#39;m&#39; (code 109)): was expecting double-quote to start field name\n at [Source: (PushbackInputStream); line: 1, column: 3]&quot;,&quot;path&quot;:&quot;&#x2F;saveSmsConsume&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-完整的正确命令，后台代码。"><a href="#2-完整的正确命令，后台代码。" class="headerlink" title="2.完整的正确命令，后台代码。"></a>2.完整的正确命令，后台代码。</h3><h4 id="1-curl命令"><a href="#1-curl命令" class="headerlink" title="1).curl命令"></a>1).curl命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -i -X POST -H &quot;Content-type:application&#x2F;json&quot; -d &#39;&#123;&quot;mobiles&quot;:&quot;17602957806&quot;,&quot;applicationId&quot;:&quot;zabbix&quot;,&quot;content&quot;:&quot;fuwuqi迪加超人&quot;&#125;&#39; http:&#x2F;&#x2F;192.168.31.172:8081&#x2F;saveSmsConsume</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-后台post请求代码"><a href="#2-后台post请求代码" class="headerlink" title="2).后台post请求代码"></a>2).后台post请求代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping(value &#x3D; &quot;&#x2F;saveSmsConsume&quot;, headers &#x3D; &quot;Accept&#x3D;application&#x2F;json;charset&#x3D;UTF-8&quot;) public Result saveSmsConsume(@RequestBody Outbox outbox) &#123;    try &#123;        return this.restTemplate.postForObject(&quot;http:&#x2F;&#x2F;sms-producer&#x2F;sms&#x2F;outbox&#x2F;saveSms&quot;, outbox, Result.class);    &#125; catch (Exception e) &#123;        logger.error(e);    &#125;    return ResultGenerator.genFailResult(&quot;存储失败&quot;); &#125;</span><br></pre></td></tr></table></figure>
+
+
+                                                                        
+                                    </div>
+										<!-- 分享屏蔽掉 <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/posts/c7283069/" data-id="ckk1y7550000nawfcg1hv25e9" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/" rel="tag">linux命令学习</a><span class="article-tag-list-count">1</span></li></ul>
+
+                                    </footer>
+									-->
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/posts/89ce880/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MybatisPlus-多数据源</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+  <div class="gitalk" id="gitalk-container"></div>
+  
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '67c9fa467fbc248923e0',
+      clientSecret: 'ac7b54bb9ea4770ccb76bd144dea527a815825a0',
+      repo: 'gitalk',
+      owner: 'zuikushaoshao',
+      admin: ['zuikushaoshao'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+                            
+
+</article>
+</section>
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="酷少少"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索内容">
+        <i class="fe fe-search"></i>
+        搜索内容
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="请输入搜索内容">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+<!-- 鼠标点击爆炸效果 -->
+
+	<!-- 鼠标点击爱心效果 -->
+	   <script type="text/javascript" src="/js/mouseClick/clicklove.js"></script>
+	
+	<!--
+	
+<script src="/js/mouseClick/clickBoom.js"></script>
+
+   
+<script src="/js/mouseClick/clickBoom~.js"></script>
+
+   -->
+    
+
+ <!-- <script type="text/javascript" color="0,0,0" opacity='0.7' zIndex="-2" count="99" src="/js/canvas-nest.js/dist/canvas-nest.js"></script> -->
+ <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+	<!--
+	<li>本站总访问量:<i class="fe fe-bar-chart"></i><span id="busuanzi_value_site_pv"></span></li>
+    <li>本站访客数:<i class="fe fe-smile-alt"></i><span id="busuanzi_value_site_uv"></span></li>
+    <li>本文总阅读量:<i class="fe fe-bookmark"></i><span id="busuanzi_value_page_pv"></span></li>
+	-->
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2021 酷少少</li>
+        <!-- <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li> 
+       <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"superSample":3,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true},"react":{"opacityDefault":0.5,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
