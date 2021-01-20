@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-18T02:30:03.704Z</updated>
+  <updated>2021-01-20T07:42:41.594Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>shell脚本处理换行符</title>
+    <link href="http://yoursite.com/posts/ebf15616/"/>
+    <id>http://yoursite.com/posts/ebf15616/</id>
+    <published>2021-01-20T07:11:20.387Z</published>
+    <updated>2021-01-20T07:42:41.594Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;项目中需要liunx调用接口把数据存储到数据库中，在使用curl请求，后台一直接受不到参数，这里记录下自己解决问题思路。&lt;/p&gt;
+&lt;p&gt;记录下耗费半天的处理zabbix数据写入shell脚本处理换行符数据，无限次的测试，调用！！！&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="linux学习笔记" scheme="http://yoursite.com/categories/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="linux命令学习" scheme="http://yoursite.com/tags/linux%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>curl命令使用POST请求JSON数据</title>
     <link href="http://yoursite.com/posts/c7283069/"/>
     <id>http://yoursite.com/posts/c7283069/</id>
     <published>2021-01-16T05:58:38.261Z</published>
-    <updated>2021-01-18T02:30:03.704Z</updated>
+    <updated>2021-01-20T07:37:35.518Z</updated>
     
     <summary type="html">
     
