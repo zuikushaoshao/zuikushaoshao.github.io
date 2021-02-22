@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="baidu-site-verification" content="bA5VlfwoNV" />
+  <title>
+    SpringCloud-eureka |
+    
+    酷少少</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="酷少少" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-springCloud/3.SpringCloud-eureka" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      SpringCloud-eureka
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/posts/c1ad556f/" class="article-date">
+  <time datetime="2021-02-21T06:32:25.953Z" itemprop="datePublished">2021-02-21</time>
+</a>
+                            
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SpringCloud/">SpringCloud</a>
+  </div>
+
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+                                            
+
+                                                
+                                                                    <p>这篇主要写学习eureka全过程，以及代码演示(P15-P24)</p>
+<p>原理知识-单机版搭建-集群搭建-服务发现Discovery-Eureka自我保护</p>
+<a id="more"></a>
+
+<p>eureka官网停更说明</p>
+<p><a href="https://github.com/Netflix/eureka/wiki" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki</a></p>
+<h1 id="一、Eureka基础知识"><a href="#一、Eureka基础知识" class="headerlink" title="一、Eureka基础知识"></a>一、Eureka基础知识</h1><h2 id="1-什么是服务治理"><a href="#1-什么是服务治理" class="headerlink" title="1.什么是服务治理"></a>1.什么是服务治理</h2><p>Spring Cloud封装了Netflix公司开发的Eureka模块来实现服务治理</p>
+<p>在传统的RPC远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂，所以需要使用服务治理，管理服务于服务之间依赖关系，可以实现服务调用、负载均衡、容错等，实现服务发现与注册。</p>
+<h2 id="2-什么是服务注册与发现"><a href="#2-什么是服务注册与发现" class="headerlink" title="2.什么是服务注册与发现"></a>2.什么是服务注册与发现</h2><p>Eureka采用了CS的设计架构，EurekaServer作为服务注册功能的服务器，它是服务注册中心。而系统中的其他微服务，使用Eureka的客户端连接到Eureka Server并维持心跳连接。这样系统的维护人员就可以通过Eureka Server来监控系统中各个微服务是否正常运行。</p>
+<p>在服务注册与发现中，有一个注册中心。当服务器启动的时候，会把当前自己服务器的信息比如服务地址通讯地址等以别名方式注册到注册中心上。另一方(满费者、服务提供者)，以该别名的方式去注册中心上获取到实际的服务通讯地址，然后再实现本地RPC调用PC远程调用框架核心设计思想:在于注册中心，因为使用注册中心管理每个服务与服务之间的一个依赖关系(服务治理概念。在任何RPC远程框架中，都会有一个注册中心(存放服务地址相关信息(接口地址)。</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\1.eureka架构图对比dubbo.png" alt="" style="zoom:200%;" />
+
+<h2 id="3-Eureka包含两个组件-Eureka-Server和Eureka-Client"><a href="#3-Eureka包含两个组件-Eureka-Server和Eureka-Client" class="headerlink" title="3.Eureka包含两个组件:Eureka Server和Eureka Client"></a>3.Eureka包含两个组件:Eureka Server和Eureka Client</h2><p>Eureka Server提供服务注册服务各个微服务节点通过配置启动后，会在EurekaServer中进行注册，这样EurekaServer中的服务注册表中将会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观看到。</p>
+<p>EurekaClient通过注册中心进行访问是一个Java客户端，用于简化Eureka Server的交互，客户端同时也具备一个内置的、使用轮询(round-robin)负载算法的负载均衡器。在应用启动后，将会向Eureka Server发送心跳(默认周期为30秒)。如果Eureka Server在多个心跳周期内没有接收到某个节点的心跳，EurekaServer将会从服务注册表中把这个服务节点移除(默认90秒)。</p>
+<h1 id="二、Erueka-单机版Erueka集成"><a href="#二、Erueka-单机版Erueka集成" class="headerlink" title="二、Erueka-单机版Erueka集成"></a>二、Erueka-单机版Erueka集成</h1><h2 id="1-服务端"><a href="#1-服务端" class="headerlink" title="1.服务端"></a>1.服务端</h2><h3 id="1-新建物流服务端"><a href="#1-新建物流服务端" class="headerlink" title="1.新建物流服务端"></a>1.新建物流服务端</h3><p>建modul cloud-eureka-server7001</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\2.eureka7001服务端架构图.png" alt="" style="zoom:200%;" />
+
+<h3 id="2、改pom"><a href="#2、改pom" class="headerlink" title="2、改pom"></a>2、改pom</h3><p>主要引入eureka-server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">        &lt;!--依赖Eureka服务端依赖--&gt;</span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.cloud&#x2F;spring-cloud-starter-eureka-server --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.csh.example&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;cloud-api-commons&lt;&#x2F;artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;project.version&#125;&lt;&#x2F;version&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.boot&#x2F;spring-boot-starter-web --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.boot&#x2F;spring-boot-starter-web  --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-actuator&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.boot&#x2F;spring-boot-devtools --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-devtools&lt;&#x2F;artifactId&gt;</span><br><span class="line">            &lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">            &lt;optional&gt;true&lt;&#x2F;optional&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.projectlombok&#x2F;lombok --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.boot&#x2F;spring-boot-starter-test --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、改yml"><a href="#3、改yml" class="headerlink" title="3、改yml"></a>3、改yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 7001</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost  #eureka服务端的实例名字</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: false    #指示此实例是否应在eureka *服务器上注册其信息以供他人发现</span><br><span class="line">    fetch-registry: false   #指示此客户端是否应从eureka *服务器获取eureka注册表信息</span><br><span class="line">    service-url:</span><br><span class="line">        defaultZone: http:&#x2F;&#x2F;$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;&#x2F;eureka&#x2F;    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、启动类添加服务端注解-EnableEurekaServer"><a href="#4、启动类添加服务端注解-EnableEurekaServer" class="headerlink" title="4、启动类添加服务端注解@EnableEurekaServer"></a>4、启动类添加服务端注解@EnableEurekaServer</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span> <span class="comment">//服务端注解</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerMain7001</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(ServerMain7001<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-客户端-8001、8002"><a href="#2-客户端-8001、8002" class="headerlink" title="2.客户端(8001、8002)"></a>2.客户端(8001、8002)</h2><h3 id="1、改POM"><a href="#1、改POM" class="headerlink" title="1、改POM"></a>1、改POM</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--依赖Eureka客户端依赖--&gt;</span><br><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.cloud&#x2F;spring-cloud-starter-eureka-server --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、-改yml-将自己注册到服务中心"><a href="#2、-改yml-将自己注册到服务中心" class="headerlink" title="2、.改yml 将自己注册到服务中心"></a>2、.改yml 将自己注册到服务中心</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: cloud-payment-service # 注册服务端的名称。多个支付模块通过名称替代主机名，形成负载均衡调用</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: true    #表识不向注册中心注册自己</span><br><span class="line">    fetch-registry: true   #表示自己就是注册中心，职责是维护服务实例，并不需要去检索服务</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;localhost:7001&#x2F;eureka&#x2F;    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、启动类添加客户端注解-EnableEurekaClient-客户端注解"><a href="#3、启动类添加客户端注解-EnableEurekaClient-客户端注解" class="headerlink" title="3、启动类添加客户端注解@EnableEurekaClient //客户端注解"></a>3、启动类添加客户端注解@EnableEurekaClient //客户端注解</h3><h3 id="4、测试页面"><a href="#4、测试页面" class="headerlink" title="4、测试页面"></a>4、测试页面</h3><p>启动7001、8001<br>访问地址：<a href="http://localhost:7001/" target="_blank" rel="noopener">http://localhost:7001/</a></p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\2.eureka单机测试图.png" alt="" style="zoom:200%;" />
+
+<h3 id="5-根据上面客户端搭建把订单80端口也注册到服务端。"><a href="#5-根据上面客户端搭建把订单80端口也注册到服务端。" class="headerlink" title="5.根据上面客户端搭建把订单80端口也注册到服务端。"></a>5.根据上面客户端搭建把订单80端口也注册到服务端。</h3><p>application名称cloud-order-service</p>
+<h1 id="三、Erueka-集群版Erueka集成"><a href="#三、Erueka-集群版Erueka集成" class="headerlink" title="三、Erueka-集群版Erueka集成"></a>三、Erueka-集群版Erueka集成</h1><p>集群原理图</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\3.eureka集群原理图.png" alt="" style="zoom:200%;" />
+
+<h2 id="1-服务端集群搭建"><a href="#1-服务端集群搭建" class="headerlink" title="1.服务端集群搭建"></a>1.服务端集群搭建</h2><h3 id="1-新建module7002-参考7001搭建"><a href="#1-新建module7002-参考7001搭建" class="headerlink" title="1.新建module7002(参考7001搭建)"></a>1.新建module7002(参考7001搭建)</h3><img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\4.eureka集群7002架构图.png" alt="" style="zoom:200%;" />
+
+<h3 id="2-修改映射配置-hostos文件映射"><a href="#2-修改映射配置-hostos文件映射" class="headerlink" title="2.修改映射配置(hostos文件映射)"></a>2.修改映射配置(hostos文件映射)</h3><p>win10文件路径：C:\Windows\System32\drivers\etc<br>注意：我这里出现没有hostos文件<br>win+r 输出cmd 执行下面代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;f %P in (&#39;dir %windir%\WinSxS\hosts &#x2F;b &#x2F;s&#39;) do copy %P %windir%\System32\drivers\etc &amp; echo %P &amp; Notepad %P</span><br></pre></td></tr></table></figure>
+
+<p>文件添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1  eureka7001.com</span><br><span class="line">127.0.0.1  eureka7002.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-修改服务端yml"><a href="#3-修改服务端yml" class="headerlink" title="3.修改服务端yml"></a>3.修改服务端yml</h3><p>下面是7001yml配置，反之7002把1改为2,2改为1.</p>
+<p>相互注册，相互扶持。如果是3台机器，那么defaultZone以‘，’号分隔</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 7001</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: eureka7001.com    #eureka服务端的实例名字</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: false    #表识不向注册中心注册自己</span><br><span class="line">    fetch-registry: false   #表示自己就是注册中心，职责是维护服务实例，并不需要去检索服务</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;eureka7002.com:7002&#x2F;eureka&#x2F;    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址。多台机器逗号分隔。</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-修改8001配置"><a href="#4-修改8001配置" class="headerlink" title="4.修改8001配置"></a>4.修改8001配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service-url:</span><br><span class="line">  #defaultZone: http:&#x2F;&#x2F;localhost:7001&#x2F;eureka&#x2F;    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址</span><br><span class="line">  defaultZone: http:&#x2F;&#x2F;eureka7001.com:7001&#x2F;eureka&#x2F;,http:&#x2F;&#x2F;eureka7002.com:7002&#x2F;eureka&#x2F;    #集群版</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-客户端集群搭建"><a href="#2-客户端集群搭建" class="headerlink" title="2.客户端集群搭建"></a>2.客户端集群搭建</h2><h3 id="1-添加8002客户端-cloud-provider-payment8002-，复制客户端8001"><a href="#1-添加8002客户端-cloud-provider-payment8002-，复制客户端8001" class="headerlink" title="1.添加8002客户端(cloud-provider-payment8002)，复制客户端8001"></a>1.添加8002客户端(cloud-provider-payment8002)，复制客户端8001</h3><img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\5.eureka集群客户端8002.png" alt="" style="zoom:200%;" />
+
+<h3 id="2-pom一模一样，yml改端口，启动类名称改8002"><a href="#2-pom一模一样，yml改端口，启动类名称改8002" class="headerlink" title="2.pom一模一样，yml改端口，启动类名称改8002"></a>2.pom一模一样，yml改端口，启动类名称改8002</h3><h3 id="3-修改8001-8002客户端controller，用来区分负载均衡调用"><a href="#3-修改8001-8002客户端controller，用来区分负载均衡调用" class="headerlink" title="3.修改8001,8002客户端controller，用来区分负载均衡调用"></a>3.修改8001,8002客户端controller，用来区分负载均衡调用</h3><img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\6.eureka集群客户端controller修改.png" alt="" style="zoom:200%;" />
+
+<h3 id="4-修改80端口消费者的controller"><a href="#4-修改80端口消费者的controller" class="headerlink" title="4.修改80端口消费者的controller"></a>4.修改80端口消费者的controller</h3><p>url改为客户端注册的application的名称</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\7.eureka集群80端口controller修改.png" alt="" style="zoom:200%;" />
+
+<h3 id="5-80端口添加注解-LoadBalanced"><a href="#5-80端口添加注解-LoadBalanced" class="headerlink" title="5.80端口添加注解@LoadBalanced"></a>5.80端口添加注解@LoadBalanced</h3><img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\8.eureka集群80端口RestTemplate修改.png" alt="" style="zoom:200%;" />
+
+<h2 id="3-测试"><a href="#3-测试" class="headerlink" title="3.测试"></a>3.测试</h2><p>启动7001、7002、80、8001、8002<br>访问地址：<a href="http://eureka7001.com:7001/" target="_blank" rel="noopener">http://eureka7001.com:7001/</a></p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\9.eureka集群测试web1.png" alt="" style="zoom:200%;" />
+
+<p>访问地址：<a href="http://eureka7002.com:7002/" target="_blank" rel="noopener">http://eureka7002.com:7002/</a></p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\9.eureka集群测试web2.png" alt="" style="zoom:200%;" />
+
+<p>测试订单负载均衡调用客户端，多刷新会发现轮询调用客户端，实现负载均衡（gif动图演示）<br>访问地址：<a href="http://localhost/consumer/payment/getId?id=1" target="_blank" rel="noopener">http://localhost/consumer/payment/getId?id=1</a></p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\10.轮询调用客户端.gif" alt="" style="zoom:200%;" />
+
+<h1 id="四、服务发现Discovery"><a href="#四、服务发现Discovery" class="headerlink" title="四、服务发现Discovery"></a>四、服务发现Discovery</h1><h2 id="1-服务端8001与8002端口controller"><a href="#1-服务端8001与8002端口controller" class="headerlink" title="1.服务端8001与8002端口controller"></a>1.服务端8001与8002端口controller</h2><p>添加一下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line">DiscoveryClient discoveryClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/discovery"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getDiscovery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取注册服务端的客户实例名</span></span><br><span class="line">    List&lt;String&gt; services = discoveryClient.getServices();</span><br><span class="line">    <span class="keyword">for</span> (String service : services) &#123;</span><br><span class="line">        log.info(<span class="string">"serviceName: "</span> + service);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获取当前实例名下所有的主机信息</span></span><br><span class="line">    List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(<span class="string">"cloud-payment-service"</span>);</span><br><span class="line">    <span class="keyword">for</span> (ServiceInstance instance : instances) &#123;</span><br><span class="line">        log.info(instance.getServiceId() + <span class="string">"\t"</span> + instance.getHost() + <span class="string">"\t"</span> + instance.getPort() + <span class="string">"\t"</span> + instance.getUri());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.discoveryClient;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-启动类添加注解-EnableDiscoveryClient"><a href="#2-启动类添加注解-EnableDiscoveryClient" class="headerlink" title="2.启动类添加注解@EnableDiscoveryClient"></a>2.启动类添加注解@EnableDiscoveryClient</h2><h2 id="3-测试-1"><a href="#3-测试-1" class="headerlink" title="3.测试"></a>3.测试</h2><img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\11.Discovery测试1.png" alt="" style="zoom:200%;" />
+
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\11.Discovery测试2.png" alt="" style="zoom:200%;" />
+
+<h1 id="五、Eureka自我保护"><a href="#五、Eureka自我保护" class="headerlink" title="五、Eureka自我保护"></a>五、Eureka自我保护</h1><p>保护模式主要用于一组客户端和Eureka Server之间存在网络分区场景下的保护。一旦进入保护模式，Eureka Server将会尝试保护其服务注册表中的信息，不再删除服务注册表中的数据，也就是不会注销任何微服务。<br>如果在Eureka Server的首页看到以下这段提示，则说明Eureka进入了保护模式：<br>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT.<br>RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE</p>
+<h2 id="关闭自我保护机制"><a href="#关闭自我保护机制" class="headerlink" title="关闭自我保护机制"></a>关闭自我保护机制</h2><h3 id="1-修改客户端yml配置-8001、8002"><a href="#1-修改客户端yml配置-8001、8002" class="headerlink" title="1.修改客户端yml配置(8001、8002)"></a>1.修改客户端yml配置(8001、8002)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">    server:</span><br><span class="line">        enable-self-preservation: false #关闭自我保护机制</span><br><span class="line">        eviction-interval-timer-in-ms: 2000 #逐出间隔毫秒</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-修改服务端yml配置-7001、7002"><a href="#2-修改服务端yml配置-7001、7002" class="headerlink" title="2.修改服务端yml配置(7001、7002)"></a>2.修改服务端yml配置(7001、7002)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">      lease-renewal-interval-in-seconds: 1 #租约更新间隔（发送心跳，以秒为单位）</span><br><span class="line">      lease-expiration-duration-in-seconds: 2 #租约到期持续时间（发送心跳超市时间，以秒为单位）</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-测试-2"><a href="#3-测试-2" class="headerlink" title="3.测试"></a>3.测试</h3><p>启动一个7001服务端和8001客户端</p>
+<p>yml改成单机版</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\12.自我保护机制关闭web.png" alt="" style="zoom:200%;" />
+
+<p>关闭8001客户端、2s心跳后直接删除注册服务</p>
+<img src="\gallery\photos\springCloud\2.0服务注册与发现\eureka\关闭自我保护.gif" alt="" style="zoom:200%;" />
+
+
+                                                                        
+                                    </div>
+										<!-- 分享屏蔽掉 <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/posts/c1ad556f/" data-id="cklfzplw0000glkfcd4g6hdkt" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%BA%8E%E5%8F%91%E7%8E%B0/" rel="tag">SpringCloud-服务注册于发现</a><span class="article-tag-list-count">2</span></li></ul>
+
+                                    </footer>
+									-->
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/posts/879bfca6/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringCloud-zookeeper
+          
+        </div>
+      </a>
+    
+    
+      <a href="/posts/ebf15616/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">shell脚本处理换行符</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+  <div class="gitalk" id="gitalk-container"></div>
+  
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '67c9fa467fbc248923e0',
+      clientSecret: 'ac7b54bb9ea4770ccb76bd144dea527a815825a0',
+      repo: 'gitalk',
+      owner: 'zuikushaoshao',
+      admin: ['zuikushaoshao'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+                            
+
+</article>
+</section>
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="酷少少"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索内容">
+        <i class="fe fe-search"></i>
+        搜索内容
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="请输入搜索内容">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+<!-- 鼠标点击爆炸效果 -->
+
+	<!-- 鼠标点击爱心效果 -->
+	   <script type="text/javascript" src="/js/mouseClick/clicklove.js"></script>
+	
+	<!--
+	
+<script src="/js/mouseClick/clickBoom.js"></script>
+
+   
+<script src="/js/mouseClick/clickBoom~.js"></script>
+
+   -->
+    
+
+ <!-- <script type="text/javascript" color="0,0,0" opacity='0.7' zIndex="-2" count="99" src="/js/canvas-nest.js/dist/canvas-nest.js"></script> -->
+ <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+	<!--
+	<li>本站总访问量:<i class="fe fe-bar-chart"></i><span id="busuanzi_value_site_pv"></span></li>
+    <li>本站访客数:<i class="fe fe-smile-alt"></i><span id="busuanzi_value_site_uv"></span></li>
+    <li>本文总阅读量:<i class="fe fe-bookmark"></i><span id="busuanzi_value_page_pv"></span></li>
+	-->
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2021 酷少少</li>
+        <!-- <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li> 
+       <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"superSample":3,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true},"react":{"opacityDefault":0.5,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

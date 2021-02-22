@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-01-26T08:05:41.234Z</updated>
+  <updated>2021-02-21T10:17:47.173Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringCloud-zookeeper</title>
+    <link href="http://yoursite.com/posts/879bfca6/"/>
+    <id>http://yoursite.com/posts/879bfca6/</id>
+    <published>2021-02-21T08:57:33.507Z</published>
+    <updated>2021-02-21T10:17:47.173Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇主要写学习zookeeper全过程，以及代码演示(P28-P30)&lt;/p&gt;
+&lt;p&gt;zookeeper搭建-SpringCloud整合zookeeper&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="http://yoursite.com/categories/SpringCloud/"/>
+    
+    
+      <category term="SpringCloud-服务注册于发现" scheme="http://yoursite.com/tags/SpringCloud-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%BA%8E%E5%8F%91%E7%8E%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud-eureka</title>
+    <link href="http://yoursite.com/posts/c1ad556f/"/>
+    <id>http://yoursite.com/posts/c1ad556f/</id>
+    <published>2021-02-21T06:32:25.953Z</published>
+    <updated>2021-02-21T09:36:37.200Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇主要写学习eureka全过程，以及代码演示(P15-P24)&lt;/p&gt;
+&lt;p&gt;原理知识-单机版搭建-集群搭建-服务发现Discovery-Eureka自我保护&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringCloud" scheme="http://yoursite.com/categories/SpringCloud/"/>
+    
+    
+      <category term="SpringCloud-服务注册于发现" scheme="http://yoursite.com/tags/SpringCloud-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%BA%8E%E5%8F%91%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>shell脚本处理换行符</title>
@@ -55,15 +99,15 @@
   </entry>
   
   <entry>
-    <title>SpringCloud-0基础汇总</title>
+    <title>SpringCloud-基础汇总</title>
     <link href="http://yoursite.com/posts/b5ff68f8/"/>
     <id>http://yoursite.com/posts/b5ff68f8/</id>
     <published>2021-01-03T11:36:19.000Z</published>
-    <updated>2021-01-26T09:07:13.851Z</updated>
+    <updated>2021-02-21T07:35:53.366Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;这篇主要写老师称为0基础所搭建需要的汇总&lt;/p&gt;
+      &lt;p&gt;这篇主要写老师称为0基础所搭建需要的汇总(P5-P14)&lt;/p&gt;
 &lt;p&gt;微服务架构编码构建，创建项目结构基层搭建，最初的建设以及简单支付和订单模块。&lt;/p&gt;
     
     </summary>
@@ -79,7 +123,7 @@
     <link href="http://yoursite.com/posts/89b1e29c/"/>
     <id>http://yoursite.com/posts/89b1e29c/</id>
     <published>2021-01-03T06:13:20.000Z</published>
-    <updated>2021-01-26T09:34:27.825Z</updated>
+    <updated>2021-02-21T06:05:28.792Z</updated>
     
     <summary type="html">
     
