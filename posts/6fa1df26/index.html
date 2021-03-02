@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="baidu-site-verification" content="bA5VlfwoNV" />
+  <title>
+    zabbix-agent自定义模板常用监控 |
+    
+    酷少少</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="酷少少" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-zabbix/zabbix-agent自定义模板常用监控" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      zabbix-agent自定义模板常用监控
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/posts/6fa1df26/" class="article-date">
+  <time datetime="2021-01-25T11:01:36.000Z" itemprop="datePublished">2021-01-25</time>
+</a>
+                            
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/zabbix/">zabbix</a>
+  </div>
+
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+                                            
+
+                                                
+                                                                    <p>示例自定义模板创建内存监控、以及触发器。</p>
+<a id="more"></a>
+
+
+
+<p>常用监控项目表达式：</p>
+<table>
+<thead>
+<tr>
+<th>常用监控</th>
+<th>表达式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内存</td>
+<td>vm.memory.size[available]</td>
+<td>系统中已用内存量</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>vm.memory.size[total]</td>
+<td>系统总共内存量</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>swap空间</td>
+<td>system.swap.size[,free]</td>
+<td></td>
+</tr>
+<tr>
+<td>swap空间</td>
+<td>system.swap.size[,pfree]</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>system.swap.size[,total]</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.switches</td>
+<td>系统文件切换 （bps）</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,user]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,nice]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,system]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,iowait]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,idle]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,interrupt]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,steal]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,softirq]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg1]</td>
+<td>系统CPU总负载/在线cpu个数平均1min的利用百分比</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg5]</td>
+<td>系统CPU总负载/在线cpu个数平均5min的利用百分比</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg15]</td>
+<td>系统CPU总负载/在线cpu个数平均15min的利用百分比</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>磁盘空间（可用量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},free]</td>
+<td>可用磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（使用百分比）</td>
+<td>vfs.fs.size[{&#35;FSNAME},pfree]</td>
+<td>可用磁盘空间大小占分区总磁盘空间的百分比</td>
+</tr>
+<tr>
+<td>磁盘空间（总量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},total]</td>
+<td>分区总磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（使用量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},used]</td>
+<td>已使用磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（节点数占用）</td>
+<td>vfs.fs.inode[{&#35;FSNAME},pfree]</td>
+<td>可用磁盘节点数占总节点数的百分比</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>网络流量（进口）</td>
+<td>net.if.in[{&#35;IFNAME}]</td>
+<td>网络进接口流量 （bps）</td>
+</tr>
+<tr>
+<td>网络流量（出口）</td>
+<td>net.if.out[{&#35;IFNAME}]</td>
+<td>网络出接口流量 （bps）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>系统</td>
+<td>proc.num[]</td>
+<td>系统中总进程数量，通过top查看</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>proc.num[,,run]</td>
+<td>系统中处于running的进程，通过top查看</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.localtime</td>
+<td>系统时间</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>vfs.file.cksum[/etc/passwd]</td>
+<td>系统文件passwd的文件总数</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.boottime</td>
+<td>系统启动的时间戳</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.hostname</td>
+<td>系统名称</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.cpu.intr</td>
+<td>设备中断</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>kernel.maxfiles</td>
+<td>系统支持打开文件的最大数量</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>kernel.maxproc</td>
+<td>系统支持打开进程的最大数量</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.users.num</td>
+<td>登陆系统的用户数</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.ping</td>
+<td>检查客户端可用性</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.version</td>
+<td>检查客户端使用版本</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>system.uname</td>
+<td>系统详细信息</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>system.uptime</td>
+<td>系统开启持续时间</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.hostname</td>
+<td>客户端主机名</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>端口</td>
+<td>net.tcp.listen[port]</td>
+<td>监控程序端口启用</td>
+</tr>
+</tbody></table>
+<h2 id="1、创建模板"><a href="#1、创建模板" class="headerlink" title="1、创建模板"></a>1、创建模板</h2><p>zabbix首页→配置→模板→创建模板</p>
+<img src="\gallery\photos\zabbix\1、创建模板页面路径.jpg" alt=" " style="zoom:200%;" />
+
+<p>创建模板</p>
+<img src="\gallery\photos\zabbix\2、创建模板.png" alt=" " style="zoom:200%;" />
+
+<h2 id="2、应用集添加创建的组件，如：内存、CPU、目录、io"><a href="#2、应用集添加创建的组件，如：内存、CPU、目录、io" class="headerlink" title="2、应用集添加创建的组件，如：内存、CPU、目录、io"></a>2、应用集添加创建的组件，如：内存、CPU、目录、io</h2><img src="\gallery\photos\zabbix\3、应用集.png" alt=" " style="zoom:200%;" />
+
+<h2 id="3、例子：监控内存，内存超出75-报警，触发shell脚本调用短信接口"><a href="#3、例子：监控内存，内存超出75-报警，触发shell脚本调用短信接口" class="headerlink" title="3、例子：监控内存，内存超出75%报警，触发shell脚本调用短信接口"></a>3、例子：监控内存，内存超出75%报警，触发shell脚本调用短信接口</h2><h3 id="1）创建监控项"><a href="#1）创建监控项" class="headerlink" title="1）创建监控项"></a>1）创建监控项</h3><p><strong>表达式：vm.memory.size[pavailable]</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">官网参数 https:&#x2F;&#x2F;www.zabbix.com&#x2F;documentation&#x2F;4.0&#x2F;zh&#x2F;manual&#x2F;appendix&#x2F;items&#x2F;vm.memory.size_params</span><br><span class="line">total - 总物理内存.</span><br><span class="line">free - 可用内存.</span><br><span class="line">active - 内存当前使用或最近使用，所以它在RAM中。</span><br><span class="line">inactive - 未使用内存.</span><br><span class="line">wired - 被标记为始终驻留在RAM中的内存，不会移动到磁盘。</span><br><span class="line">pinned - 和&#39;wired&#39;一样。</span><br><span class="line">anon - 与文件无关的内存(不能重新读取)。</span><br><span class="line">exec - 可执行代码，通常来自于一个(程序)文件。</span><br><span class="line">file - 缓存最近访问文件的目录。</span><br><span class="line">buffers - 缓存文件系统元数据。</span><br><span class="line">cached - 缓存为不同事情。</span><br><span class="line">shared - 可以同时被多个进程访问的内存。</span><br><span class="line">used - active + wired 内存。</span><br><span class="line">pused - active + wired 总内存的百分比。</span><br><span class="line">available - inactive + cached + free 内存。</span><br><span class="line">pavailable - inactive + cached + free memory 占&#39;total&#39;的百分比。</span><br></pre></td></tr></table></figure>
+
+<img src="\gallery\photos\zabbix\4、内存监控.png" alt=" " style="zoom:200%;" />
+
+<h3 id="2）触发器同理-内存值-gt-75-触发把告警"><a href="#2）触发器同理-内存值-gt-75-触发把告警" class="headerlink" title="2）触发器同理 (内存值&gt;= 75% 触发把告警)"></a>2）触发器同理 (内存值&gt;= 75% 触发把告警)</h3><p>选择内存监控项</p>
+<p><strong>表达式：{data_center:vm.memory.size[pavailable].last(,1)}&gt;=75</strong></p>
+<img src="\gallery\photos\zabbix\5、内存触发器.png" alt=" " style="zoom:200%;" />
+
+<p>恢复表达式配置</p>
+<p><strong>表达式：{data_center:vm.memory.size[pavailable].last(,1)}&lt;75</strong></p>
+<img src="\gallery\photos\zabbix\5.1、内存触发器恢复.jpg" alt=" " style="zoom:200%;" />
+
+<h3 id="3）添加图形"><a href="#3）添加图形" class="headerlink" title="3）添加图形"></a>3）添加图形</h3><img src="\gallery\photos\zabbix\6、内存图形.png" alt=" " style="zoom:200%;" />
+
+<h3 id="4）查看图形"><a href="#4）查看图形" class="headerlink" title="4）查看图形"></a>4）查看图形</h3><img src="\gallery\photos\zabbix\7、内存查看图形.png" alt=" " style="zoom:200%;" />
+
+
+                                                                        
+                                    </div>
+										<!-- 分享屏蔽掉 <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/posts/6fa1df26/" data-id="cklrpxgrc001864fc7krr45jo" class="article-share-link">
+                                            分享
+                                        </a>
+                                        
+                                    </footer>
+									-->
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/posts/c1ad556f/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringCloud-eureka
+          
+        </div>
+      </a>
+    
+    
+      <a href="/posts/971bc486/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">zabbix-agent安装</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+                        
+  <div class="gitalk" id="gitalk-container"></div>
+  
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '67c9fa467fbc248923e0',
+      clientSecret: 'ac7b54bb9ea4770ccb76bd144dea527a815825a0',
+      repo: 'gitalk',
+      owner: 'zuikushaoshao',
+      admin: ['zuikushaoshao'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+                            
+
+</article>
+</section>
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="酷少少"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索内容">
+        <i class="fe fe-search"></i>
+        搜索内容
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="请输入搜索内容">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+<!-- 鼠标点击爆炸效果 -->
+
+	<!-- 鼠标点击爱心效果 -->
+	   <script type="text/javascript" src="/js/mouseClick/clicklove.js"></script>
+	
+	<!--
+	
+<script src="/js/mouseClick/clickBoom.js"></script>
+
+   
+<script src="/js/mouseClick/clickBoom~.js"></script>
+
+   -->
+    
+
+ <!-- <script type="text/javascript" color="0,0,0" opacity='0.7' zIndex="-2" count="99" src="/js/canvas-nest.js/dist/canvas-nest.js"></script> -->
+ <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+	<!--
+	<li>本站总访问量:<i class="fe fe-bar-chart"></i><span id="busuanzi_value_site_pv"></span></li>
+    <li>本站访客数:<i class="fe fe-smile-alt"></i><span id="busuanzi_value_site_uv"></span></li>
+    <li>本文总阅读量:<i class="fe fe-bookmark"></i><span id="busuanzi_value_page_pv"></span></li>
+	-->
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2021 酷少少</li>
+        <!-- <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li> 
+       <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li> -->
+    </ul>
+  </div>
+</footer>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"superSample":3,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true},"react":{"opacityDefault":0.5,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

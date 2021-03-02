@@ -43,6 +43,25 @@
       </tags>
   </entry>
   <entry>
+    <title>zabbix-agent自动发现挂载磁盘空间</title>
+    <url>/posts/67d022ef/</url>
+    <content><![CDATA[<p> ZABBIX动态发现磁盘监控，每台主机磁盘目录 不一，不用死板的去监控固定目录。</p>
+<a id="more"></a>
+
+<img src="\gallery\photos\zabbix\8、自动发现规则路径.jpg" alt=" " style="zoom:200%;" />
+
+<h2 id="1、创建发现规则"><a href="#1、创建发现规则" class="headerlink" title="1、创建发现规则"></a>1、创建发现规则</h2><p><strong>表达式 vfs.fs.discovery</strong></p>
+<img src="\gallery\photos\zabbix\9、磁盘创建规则.png" alt=" " style="zoom:200%;" />
+
+<h2 id="2、监控、触发器、图形同普通参数创建方式一致"><a href="#2、监控、触发器、图形同普通参数创建方式一致" class="headerlink" title="2、监控、触发器、图形同普通参数创建方式一致"></a>2、监控、触发器、图形同普通参数创建方式一致</h2><p><a style="color:red;">点击下方注意事项框柱的来创建监控、触发器、图形。</a><br>{&#35;FSNAME} 为自动发现监控的目录，也可以放到监控项目名称中如图<br><strong>磁盘空间表达式vfs.fs.size[{&#35;FSNAME},pused]</strong><br><img src="\gallery\photos\zabbix\10、磁盘空间监控.png" alt=" " style="zoom:200%;" /></p>
+<h2 id="3、注意事项"><a href="#3、注意事项" class="headerlink" title="3、注意事项"></a>3、注意事项</h2><p>确保每一项与普通的监控信息一致，<br><img src="\gallery\photos\zabbix\11、磁盘空间结尾.jpg" alt=" " style="zoom:200%;" /></p>
+<h2 id="4、查看图形"><a href="#4、查看图形" class="headerlink" title="4、查看图形"></a>4、查看图形</h2><img src="\gallery\photos\zabbix\12、磁盘空间查看图形.jpg" alt=" " style="zoom:200%;" />
+]]></content>
+      <categories>
+        <category>zabbix</category>
+      </categories>
+  </entry>
+  <entry>
     <title>SpringCloud-zookeeper</title>
     <url>/posts/879bfca6/</url>
     <content><![CDATA[<p>这篇主要写学习zookeeper全过程，以及代码演示(P28-P30)</p>
@@ -199,6 +218,317 @@
       <tags>
         <tag>SpringCloud-服务注册于发现</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>zabbix-agent自定义模板常用监控</title>
+    <url>/posts/6fa1df26/</url>
+    <content><![CDATA[<p>示例自定义模板创建内存监控、以及触发器。</p>
+<a id="more"></a>
+
+
+
+<p>常用监控项目表达式：</p>
+<table>
+<thead>
+<tr>
+<th>常用监控</th>
+<th>表达式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内存</td>
+<td>vm.memory.size[available]</td>
+<td>系统中已用内存量</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>vm.memory.size[total]</td>
+<td>系统总共内存量</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>swap空间</td>
+<td>system.swap.size[,free]</td>
+<td></td>
+</tr>
+<tr>
+<td>swap空间</td>
+<td>system.swap.size[,pfree]</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>system.swap.size[,total]</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.switches</td>
+<td>系统文件切换 （bps）</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,user]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,nice]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,system]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,iowait]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,idle]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,interrupt]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,steal]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.util[,softirq]</td>
+<td>类似于对应系统中top命令查看CPU显示值</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg1]</td>
+<td>系统CPU总负载/在线cpu个数平均1min的利用百分比</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg5]</td>
+<td>系统CPU总负载/在线cpu个数平均5min的利用百分比</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>system.cpu.load[percpu,avg15]</td>
+<td>系统CPU总负载/在线cpu个数平均15min的利用百分比</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>磁盘空间（可用量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},free]</td>
+<td>可用磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（使用百分比）</td>
+<td>vfs.fs.size[{&#35;FSNAME},pfree]</td>
+<td>可用磁盘空间大小占分区总磁盘空间的百分比</td>
+</tr>
+<tr>
+<td>磁盘空间（总量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},total]</td>
+<td>分区总磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（使用量）</td>
+<td>vfs.fs.size[{&#35;FSNAME},used]</td>
+<td>已使用磁盘空间大小</td>
+</tr>
+<tr>
+<td>磁盘空间（节点数占用）</td>
+<td>vfs.fs.inode[{&#35;FSNAME},pfree]</td>
+<td>可用磁盘节点数占总节点数的百分比</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>网络流量（进口）</td>
+<td>net.if.in[{&#35;IFNAME}]</td>
+<td>网络进接口流量 （bps）</td>
+</tr>
+<tr>
+<td>网络流量（出口）</td>
+<td>net.if.out[{&#35;IFNAME}]</td>
+<td>网络出接口流量 （bps）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>系统</td>
+<td>proc.num[]</td>
+<td>系统中总进程数量，通过top查看</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>proc.num[,,run]</td>
+<td>系统中处于running的进程，通过top查看</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.localtime</td>
+<td>系统时间</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>vfs.file.cksum[/etc/passwd]</td>
+<td>系统文件passwd的文件总数</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.boottime</td>
+<td>系统启动的时间戳</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.hostname</td>
+<td>系统名称</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.cpu.intr</td>
+<td>设备中断</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>kernel.maxfiles</td>
+<td>系统支持打开文件的最大数量</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>kernel.maxproc</td>
+<td>系统支持打开进程的最大数量</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>system.users.num</td>
+<td>登陆系统的用户数</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.ping</td>
+<td>检查客户端可用性</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.version</td>
+<td>检查客户端使用版本</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>system.uname</td>
+<td>系统详细信息</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>system.uptime</td>
+<td>系统开启持续时间</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>agent.hostname</td>
+<td>客户端主机名</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>端口</td>
+<td>net.tcp.listen[port]</td>
+<td>监控程序端口启用</td>
+</tr>
+</tbody></table>
+<h2 id="1、创建模板"><a href="#1、创建模板" class="headerlink" title="1、创建模板"></a>1、创建模板</h2><p>zabbix首页→配置→模板→创建模板</p>
+<img src="\gallery\photos\zabbix\1、创建模板页面路径.jpg" alt=" " style="zoom:200%;" />
+
+<p>创建模板</p>
+<img src="\gallery\photos\zabbix\2、创建模板.png" alt=" " style="zoom:200%;" />
+
+<h2 id="2、应用集添加创建的组件，如：内存、CPU、目录、io"><a href="#2、应用集添加创建的组件，如：内存、CPU、目录、io" class="headerlink" title="2、应用集添加创建的组件，如：内存、CPU、目录、io"></a>2、应用集添加创建的组件，如：内存、CPU、目录、io</h2><img src="\gallery\photos\zabbix\3、应用集.png" alt=" " style="zoom:200%;" />
+
+<h2 id="3、例子：监控内存，内存超出75-报警，触发shell脚本调用短信接口"><a href="#3、例子：监控内存，内存超出75-报警，触发shell脚本调用短信接口" class="headerlink" title="3、例子：监控内存，内存超出75%报警，触发shell脚本调用短信接口"></a>3、例子：监控内存，内存超出75%报警，触发shell脚本调用短信接口</h2><h3 id="1）创建监控项"><a href="#1）创建监控项" class="headerlink" title="1）创建监控项"></a>1）创建监控项</h3><p><strong>表达式：vm.memory.size[pavailable]</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">官网参数 https:&#x2F;&#x2F;www.zabbix.com&#x2F;documentation&#x2F;4.0&#x2F;zh&#x2F;manual&#x2F;appendix&#x2F;items&#x2F;vm.memory.size_params</span><br><span class="line">total - 总物理内存.</span><br><span class="line">free - 可用内存.</span><br><span class="line">active - 内存当前使用或最近使用，所以它在RAM中。</span><br><span class="line">inactive - 未使用内存.</span><br><span class="line">wired - 被标记为始终驻留在RAM中的内存，不会移动到磁盘。</span><br><span class="line">pinned - 和&#39;wired&#39;一样。</span><br><span class="line">anon - 与文件无关的内存(不能重新读取)。</span><br><span class="line">exec - 可执行代码，通常来自于一个(程序)文件。</span><br><span class="line">file - 缓存最近访问文件的目录。</span><br><span class="line">buffers - 缓存文件系统元数据。</span><br><span class="line">cached - 缓存为不同事情。</span><br><span class="line">shared - 可以同时被多个进程访问的内存。</span><br><span class="line">used - active + wired 内存。</span><br><span class="line">pused - active + wired 总内存的百分比。</span><br><span class="line">available - inactive + cached + free 内存。</span><br><span class="line">pavailable - inactive + cached + free memory 占&#39;total&#39;的百分比。</span><br></pre></td></tr></table></figure>
+
+<img src="\gallery\photos\zabbix\4、内存监控.png" alt=" " style="zoom:200%;" />
+
+<h3 id="2）触发器同理-内存值-gt-75-触发把告警"><a href="#2）触发器同理-内存值-gt-75-触发把告警" class="headerlink" title="2）触发器同理 (内存值&gt;= 75% 触发把告警)"></a>2）触发器同理 (内存值&gt;= 75% 触发把告警)</h3><p>选择内存监控项</p>
+<p><strong>表达式：{data_center:vm.memory.size[pavailable].last(,1)}&gt;=75</strong></p>
+<img src="\gallery\photos\zabbix\5、内存触发器.png" alt=" " style="zoom:200%;" />
+
+<p>恢复表达式配置</p>
+<p><strong>表达式：{data_center:vm.memory.size[pavailable].last(,1)}&lt;75</strong></p>
+<img src="\gallery\photos\zabbix\5.1、内存触发器恢复.jpg" alt=" " style="zoom:200%;" />
+
+<h3 id="3）添加图形"><a href="#3）添加图形" class="headerlink" title="3）添加图形"></a>3）添加图形</h3><img src="\gallery\photos\zabbix\6、内存图形.png" alt=" " style="zoom:200%;" />
+
+<h3 id="4）查看图形"><a href="#4）查看图形" class="headerlink" title="4）查看图形"></a>4）查看图形</h3><img src="\gallery\photos\zabbix\7、内存查看图形.png" alt=" " style="zoom:200%;" />
+
+]]></content>
+      <categories>
+        <category>zabbix</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>zabbix-agent安装</title>
+    <url>/posts/971bc486/</url>
+    <content><![CDATA[<p>zabbix 客户端agent安装部署过程</p>
+<a id="more"></a>
+
+<h3 id="1、下载agent包"><a href="#1、下载agent包" class="headerlink" title="1、下载agent包"></a>1、下载agent包</h3><p>下面是我上传在github的agent包，下载直接用。<br>下载完成上传到需要安装linux主机上。</p>
+<p><a href="https://github.com/zuikushaoshao/bokeCorrelation/raw/main/zabbix/zabbix-agent-4.4.7-1.el7.x86_64.rpm" target="_blank" rel="noopener">zabbix-agent-4.4.7-1.el7.x86_64.rpm</a></p>
+<h3 id="2、安装rpm包"><a href="#2、安装rpm包" class="headerlink" title="2、安装rpm包"></a>2、安装rpm包</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo rpm -ivh zabbix-agent-4.4.7-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、配置zabbxi-agent"><a href="#3、配置zabbxi-agent" class="headerlink" title="3、配置zabbxi-agent"></a>3、配置zabbxi-agent</h3><h4 id="1、编辑配置文件"><a href="#1、编辑配置文件" class="headerlink" title="1、编辑配置文件"></a>1、编辑配置文件</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;zabbix&#x2F;</span><br><span class="line"></span><br><span class="line">vim zabbix_agentd.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、添加相关信息"><a href="#2、添加相关信息" class="headerlink" title="2、添加相关信息"></a>2、添加相关信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Server&#x3D;**.**.**.**  # 安装zabbix主机</span><br><span class="line">zabbix-server的ip  #用于被动模式，数据获取</span><br><span class="line">#ServerActive&#x3D;192.168.8.11    server的ip &#x2F;&#x2F;用于主动模式，数据提交 可以不用配置</span><br><span class="line">Include&#x3D;&#x2F;etc&#x2F;zabbix&#x2F;zabbix_agentd.d&#x2F;*.conf</span><br><span class="line">UnsafeUserParameters&#x3D;1                   #是否允许自定义的key,1为允许，0为不允许</span><br><span class="line">AllowRoot&#x3D;1 #root运行</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、agent启动、重启、关闭"><a href="#3、agent启动、重启、关闭" class="headerlink" title="3、agent启动、重启、关闭"></a>3、agent启动、重启、关闭</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root~]# systemctl start zabbix-agent   </span><br><span class="line">[root~]# systemctl restart zabbix-agent</span><br><span class="line">[root~]# systemctl enable zabbix-agent</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、查看主机是否有端口10050，有启动成功"><a href="#4、查看主机是否有端口10050，有启动成功" class="headerlink" title="4、查看主机是否有端口10050，有启动成功"></a>4、查看主机是否有端口10050，有启动成功</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ntestat -nltp</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>zabbix</category>
+      </categories>
   </entry>
   <entry>
     <title>shell脚本处理换行符</title>

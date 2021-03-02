@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-02-21T10:17:47.173Z</updated>
+  <updated>2021-03-02T07:56:01.631Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>zabbix-agent自动发现挂载磁盘空间</title>
+    <link href="http://yoursite.com/posts/67d022ef/"/>
+    <id>http://yoursite.com/posts/67d022ef/</id>
+    <published>2021-03-02T11:36:18.000Z</published>
+    <updated>2021-03-02T07:56:01.631Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt; ZABBIX动态发现磁盘监控，每台主机磁盘目录 不一，不用死板的去监控固定目录。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="zabbix" scheme="http://yoursite.com/categories/zabbix/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>SpringCloud-zookeeper</title>
@@ -57,6 +76,44 @@
     
     
       <category term="SpringCloud-服务注册于发现" scheme="http://yoursite.com/tags/SpringCloud-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%BA%8E%E5%8F%91%E7%8E%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>zabbix-agent自定义模板常用监控</title>
+    <link href="http://yoursite.com/posts/6fa1df26/"/>
+    <id>http://yoursite.com/posts/6fa1df26/</id>
+    <published>2021-01-25T11:01:36.000Z</published>
+    <updated>2021-03-02T07:30:23.361Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;示例自定义模板创建内存监控、以及触发器。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="zabbix" scheme="http://yoursite.com/categories/zabbix/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>zabbix-agent安装</title>
+    <link href="http://yoursite.com/posts/971bc486/"/>
+    <id>http://yoursite.com/posts/971bc486/</id>
+    <published>2021-01-25T10:25:03.000Z</published>
+    <updated>2021-03-02T07:22:00.109Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;zabbix 客户端agent安装部署过程&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="zabbix" scheme="http://yoursite.com/categories/zabbix/"/>
+    
     
   </entry>
   
