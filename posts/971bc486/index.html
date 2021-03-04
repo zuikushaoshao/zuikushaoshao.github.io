@@ -86,7 +86,8 @@
 <p><a href="https://github.com/zuikushaoshao/bokeCorrelation/raw/main/zabbix/zabbix-agent-4.4.7-1.el7.x86_64.rpm" target="_blank" rel="noopener">zabbix-agent-4.4.7-1.el7.x86_64.rpm</a></p>
 <h3 id="2、安装rpm包"><a href="#2、安装rpm包" class="headerlink" title="2、安装rpm包"></a>2、安装rpm包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ivh zabbix-agent-4.4.7-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
 
-<h3 id="3、配置zabbxi-agent"><a href="#3、配置zabbxi-agent" class="headerlink" title="3、配置zabbxi-agent"></a>3、配置zabbxi-agent</h3><h4 id="1、编辑配置文件"><a href="#1、编辑配置文件" class="headerlink" title="1、编辑配置文件"></a>1、编辑配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;zabbix&#x2F;</span><br><span class="line"></span><br><span class="line">vim zabbix_agentd.conf</span><br></pre></td></tr></table></figure>
+<h3 id="3、配置zabbxi-agent"><a href="#3、配置zabbxi-agent" class="headerlink" title="3、配置zabbxi-agent"></a>3、配置zabbxi-agent</h3><h4 id="1、编辑配置文件"><a href="#1、编辑配置文件" class="headerlink" title="1、编辑配置文件"></a>1、编辑配置文件</h4><p><a styler="color:red;">zabbix_agentd.conf配置文件要授权写的权限</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;zabbix&#x2F;</span><br><span class="line"></span><br><span class="line">vi zabbix_agentd.conf</span><br></pre></td></tr></table></figure>
 
 <h4 id="2、添加相关信息"><a href="#2、添加相关信息" class="headerlink" title="2、添加相关信息"></a>2、添加相关信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Server&#x3D;**.**.**.**  # 安装zabbix主机</span><br><span class="line">zabbix-server的ip  #用于被动模式，数据获取</span><br><span class="line">#ServerActive&#x3D;192.168.8.11    server的ip &#x2F;&#x2F;用于主动模式，数据提交 可以不用配置</span><br><span class="line">Include&#x3D;&#x2F;etc&#x2F;zabbix&#x2F;zabbix_agentd.d&#x2F;*.conf</span><br><span class="line">UnsafeUserParameters&#x3D;1                   #是否允许自定义的key,1为允许，0为不允许</span><br><span class="line">AllowRoot&#x3D;1 #root运行</span><br></pre></td></tr></table></figure>
 
@@ -98,7 +99,7 @@
                                                                         
                                     </div>
 										<!-- 分享屏蔽掉 <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/posts/971bc486/" data-id="cklrpxgr9001564fc92dw1qsa" class="article-share-link">
+                                        <a data-url="http://yoursite.com/posts/971bc486/" data-id="cklumnmid000vzcfc9zxp6hwq" class="article-share-link">
                                             分享
                                         </a>
                                         
