@@ -103,7 +103,7 @@
     <link href="http://yoursite.com/posts/971bc486/"/>
     <id>http://yoursite.com/posts/971bc486/</id>
     <published>2021-01-25T10:25:03.000Z</published>
-    <updated>2021-03-04T08:48:33.130Z</updated>
+    <updated>2021-03-04T11:56:01.787Z</updated>
     
     <summary type="html">
     
@@ -216,36 +216,15 @@
   </entry>
   
   <entry>
-    <title>SpringBoot整合MybatisPlus</title>
+    <title>SpringBoot使用MybatisPlus代码生成</title>
     <link href="http://yoursite.com/posts/265a8413/"/>
     <id>http://yoursite.com/posts/265a8413/</id>
     <published>2020-12-12T03:26:58.000Z</published>
-    <updated>2021-01-26T08:05:02.243Z</updated>
+    <updated>2021-03-04T11:52:43.326Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;上篇只搭建了项目，这篇记录整合MybatisPlus,并且使用MybatisPlus代码生成。可以快速生成 Bean、Mapper、Mapper XML、Service、Controller 等各个模块的代码，极大的提升了开发效率。结尾使用Spring自带任务定时器。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="http://yoursite.com/categories/SpringBoot/"/>
-    
-    
-      <category term="mybatisPlus" scheme="http://yoursite.com/tags/mybatisPlus/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringBoot+SSM</title>
-    <link href="http://yoursite.com/posts/47650d0d/"/>
-    <id>http://yoursite.com/posts/47650d0d/</id>
-    <published>2020-12-11T03:26:58.000Z</published>
-    <updated>2021-01-26T08:04:48.941Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;记录下最简单的搭建SpringBoot的SSM，MySql数据库。&lt;/p&gt;
+      &lt;p&gt;使用MybatisPlus代码生成。可以快速生成 Bean、Mapper、Mapper XML、Service、Controller 等各个模块的代码，极大的提升了开发效率。结尾使用Spring自带任务定时器。&lt;/p&gt;
     
     </summary>
     
