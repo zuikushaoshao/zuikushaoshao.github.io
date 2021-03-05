@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-03-02T07:56:01.631Z</updated>
+  <updated>2021-03-05T05:04:34.293Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>zabbix自动发现挂载磁盘-过滤器</title>
+    <link href="http://yoursite.com/posts/f6391c93/"/>
+    <id>http://yoursite.com/posts/f6391c93/</id>
+    <published>2021-03-05T10:31:53.000Z</published>
+    <updated>2021-03-05T05:04:34.293Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt; ZABBIX动态发现磁盘监控，排除掉不需要监控的目录，如/var，/mnt&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="zabbix" scheme="http://yoursite.com/categories/zabbix/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>zabbix-agent自动发现挂载磁盘空间</title>
     <link href="http://yoursite.com/posts/67d022ef/"/>
     <id>http://yoursite.com/posts/67d022ef/</id>
     <published>2021-03-02T11:36:18.000Z</published>
-    <updated>2021-03-02T07:56:01.631Z</updated>
+    <updated>2021-03-05T05:09:02.755Z</updated>
     
     <summary type="html">
     

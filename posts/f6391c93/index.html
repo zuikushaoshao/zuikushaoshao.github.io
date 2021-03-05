@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="baidu-site-verification" content="bA5VlfwoNV" />
   <title>
-    搭建个人博客hexo+github |
+    zabbix自动发现挂载磁盘-过滤器 |
     
     酷少少</title>
   
@@ -31,7 +31,7 @@
 <body>
 <main class="content">
   <section class="outer">
-  <article id="post-bokeConstruct" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  <article id="post-zabbix/zabbix-agent自动发现挂载-过滤器" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
     <div class="article-inner">
         
@@ -39,7 +39,7 @@
                 
   
     <h1 class="article-title" itemprop="name">
-      搭建个人博客hexo+github
+      zabbix自动发现挂载磁盘-过滤器
     </h1>
   
   
@@ -52,12 +52,12 @@
 
                 
                     <div class="article-meta">
-                        <a href="/posts/412bc846/" class="article-date">
-  <time datetime="2020-06-30T06:15:19.000Z" itemprop="datePublished">2020-06-30</time>
+                        <a href="/posts/f6391c93/" class="article-date">
+  <time datetime="2021-03-05T10:31:53.000Z" itemprop="datePublished">2021-03-05</time>
 </a>
                             
   <div class="article-category">
-    <a class="article-category-link" href="/categories/hexo/">hexo</a>
+    <a class="article-category-link" href="/categories/zabbix/">zabbix</a>
   </div>
 
                     </div>
@@ -79,47 +79,23 @@
                                             
 
                                                 
-                                                                    <p>这篇文章只要是搭建了hexo，基本是搭建博客网上一大堆，所有后面没有想法在写下去，后面主要写工作、学习，日常笔记。</p>
+                                                                    <p> ZABBIX动态发现磁盘监控，排除掉不需要监控的目录，如/var，/mnt</p>
 <a id="more"></a>
 
-<h1 id="搭建需要准备"><a href="#搭建需要准备" class="headerlink" title="搭建需要准备"></a>搭建需要准备</h1><blockquote>
-<ul>
-<li>安装node.js(后续需要npm 下载插件)</li>
-<li>安装git，配置好git环境 </li>
-<li>github申请账号</li>
-<li>安装hexo</li>
-<li>hexo 与 github 部署</li>
-</ul>
-</blockquote>
-<h1 id="开始进入正题​-grimacing"><a href="#开始进入正题​-grimacing" class="headerlink" title="开始进入正题​ :grimacing:"></a>开始进入正题​ :grimacing:</h1><h2 id="1-node安装、git安装、github申请账号百度一大堆，略过略过。"><a href="#1-node安装、git安装、github申请账号百度一大堆，略过略过。" class="headerlink" title="1.node安装、git安装、github申请账号百度一大堆，略过略过。"></a>1.node安装、git安装、github申请账号百度一大堆，略过略过。</h2><img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_1.gif" alt=" " style="zoom:200%;" />
+<h2 id="1、编辑发现规则"><a href="#1、编辑发现规则" class="headerlink" title="1、编辑发现规则"></a>1、编辑发现规则</h2><p>使用正则表达式来过滤</p>
+<h3 id="1、匹配"><a href="#1、匹配" class="headerlink" title="1、匹配"></a>1、匹配</h3><p>就是监控匹配的目录。</p>
+<h3 id="2、不匹配"><a href="#2、不匹配" class="headerlink" title="2、不匹配"></a>2、不匹配</h3><p> 反之，排除掉表达式已匹配的目录。<a style="color:red;">如果是多个目录排除，计算方式必须是and，才能排除掉多个目录。</a>如图所示！</p>
+<img src="\gallery\photos\zabbix\13、zabbix自动发现过滤器.jpg" alt=" " style="zoom:200%;" />
 
-<h2 id="2-安装hexo"><a href="#2-安装hexo" class="headerlink" title="2.安装hexo"></a>2.安装hexo</h2><p>在合适的磁盘中创建一个文件夹，我是在E盘建了了boke。</p>
-<p>进入文件夹，右击会出现Git Bash。</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_2.jpg" alt="" style="zoom:50%;" />
-
-<p>输入命令npm install hexo -g，回车，安装hexo。</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_3.jpg" style="zoom:75%;" />
-
-<p>输入hexo -v，检查hexo是否安装成功</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_4.jpg" alt="" style="zoom:50%;" />
-
-<p>输入hexo init 初始化该文件夹(我是第二次下载hexo，初始化不了，一直报错，就不截屏了:laughing:)<br>最后输入hexo s 启动服务，默认端口4000，如指定端口执行命令 hexo s -p 5000(注:端口号)</p>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_5.png" alt="" style="zoom:100%;" />
-
-<hr>
-<img src="\gallery\photos\bokeConstructPhotos\bokeConstruct_6.gif" alt="" style="zoom:100%;" />
-
-<p>​                                                        <font color=red size=72>hexo搭建完成啦</font></p>
-
+<h2 id="2、查看图形"><a href="#2、查看图形" class="headerlink" title="2、查看图形"></a>2、查看图形</h2><p>已排除掉不需要监控的/var，/mnt目录</p>
+<img src="\gallery\photos\zabbix\14、zabbix自动发现过滤器图形.jpg" alt=" " style="zoom:200%;" />
                                                                         
                                     </div>
 										<!-- 分享屏蔽掉 <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/posts/412bc846/" data-id="cklvu9dmk0001j4fcekxsajqd" class="article-share-link">
+                                        <a data-url="http://yoursite.com/posts/f6391c93/" data-id="cklvu9dpo001hj4fc75xp5tyx" class="article-share-link">
                                             分享
                                         </a>
                                         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="tag">hexo+github搭建博客</a><span class="article-tag-list-count">1</span></li></ul>
-
                                     </footer>
 									-->
 
@@ -129,15 +105,11 @@
         
   <nav class="article-nav">
     
-      <a href="/posts/265a8413/" class="article-nav-link">
-        <strong class="article-nav-caption">前一篇</strong>
-        <div class="article-nav-title">
-          
-            SpringBoot使用MybatisPlus代码生成
-          
-        </div>
-      </a>
     
+      <a href="/posts/67d022ef/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">zabbix-agent自动发现挂载磁盘空间</div>
+      </a>
     
   </nav>
 

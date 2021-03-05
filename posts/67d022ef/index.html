@@ -87,14 +87,24 @@
 <h2 id="1、创建发现规则"><a href="#1、创建发现规则" class="headerlink" title="1、创建发现规则"></a>1、创建发现规则</h2><p><strong>表达式 vfs.fs.discovery</strong></p>
 <img src="\gallery\photos\zabbix\9、磁盘创建规则.png" alt=" " style="zoom:200%;" />
 
-<h2 id="2、监控、触发器、图形同普通参数创建方式一致"><a href="#2、监控、触发器、图形同普通参数创建方式一致" class="headerlink" title="2、监控、触发器、图形同普通参数创建方式一致"></a>2、监控、触发器、图形同普通参数创建方式一致</h2><p><a style="color:red;">点击下方注意事项框柱的来创建监控、触发器、图形。</a><br>{&#35;FSNAME} 为自动发现监控的目录，也可以放到监控项目名称中如图<br><strong>磁盘空间表达式vfs.fs.size[{&#35;FSNAME},pused]</strong><br><img src="\gallery\photos\zabbix\10、磁盘空间监控.png" alt=" " style="zoom:200%;" /></p>
+<h2 id="2、监控、触发器、图形同普通参数创建方式一致"><a href="#2、监控、触发器、图形同普通参数创建方式一致" class="headerlink" title="2、监控、触发器、图形同普通参数创建方式一致"></a>2、监控、触发器、图形同普通参数创建方式一致</h2><p><a style="color:red;">点击下方注意事项框柱的来创建监控、触发器、图形。</a><br><a href="https://www.zabbix.com/documentation/4.0/zh/manual/vm_monitoring/discovery_fields" target="_blank" rel="noopener">官网宏使用</a>。{&#35;FSNAME} 为自动发现监控的目录，也可以放到监控项目名称中，如图</p>
+<h3 id="1）创建磁盘监控项"><a href="#1）创建磁盘监控项" class="headerlink" title="1）创建磁盘监控项"></a>1）创建磁盘监控项</h3><p>表达式：vfs.fs.size[{&#35;FSNAME},pused]</p>
+<p>注意返回类型和单位</p>
+<p>更新间隔时间是监控时间，监控磁盘空间可以放宽。</p>
+<img src="\gallery\photos\zabbix\15、zabbix自动发现监控项.jpg" alt=" " style="zoom:200%;" />
+
+<h3 id="2）创建磁盘触发器"><a href="#2）创建磁盘触发器" class="headerlink" title="2）创建磁盘触发器"></a>2）创建磁盘触发器</h3><img src="\gallery\photos\zabbix\16、zabbix自动发现触发器.jpg" alt=" " style="zoom:200%;" />
+
+<h3 id="3）创建磁盘图形"><a href="#3）创建磁盘图形" class="headerlink" title="3）创建磁盘图形"></a>3）创建磁盘图形</h3><img src="\gallery\photos\zabbix\17、zabbix自动发现图形.jpg" alt=" " style="zoom:200%;" />
+
+<h3 id="4）创建磁盘主机模板"><a href="#4）创建磁盘主机模板" class="headerlink" title="4）创建磁盘主机模板"></a>4）创建磁盘主机模板</h3><img src="\gallery\photos\zabbix\18、zabbix自动发现主机模板.jpg" alt=" " style="zoom:200%;" />
+
 <h2 id="3、注意事项"><a href="#3、注意事项" class="headerlink" title="3、注意事项"></a>3、注意事项</h2><p>确保每一项与普通的监控信息一致，<br><img src="\gallery\photos\zabbix\11、磁盘空间结尾.jpg" alt=" " style="zoom:200%;" /></p>
 <h2 id="4、查看图形"><a href="#4、查看图形" class="headerlink" title="4、查看图形"></a>4、查看图形</h2><img src="\gallery\photos\zabbix\12、磁盘空间查看图形.jpg" alt=" " style="zoom:200%;" />
-
                                                                         
                                     </div>
 										<!-- 分享屏蔽掉 <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/posts/67d022ef/" data-id="cklutd6ip001aswfcfnvw2bha" class="article-share-link">
+                                        <a data-url="http://yoursite.com/posts/67d022ef/" data-id="cklvu9dpt001nj4fc7kba0e0d" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -106,6 +116,15 @@
     
         
   <nav class="article-nav">
+    
+      <a href="/posts/f6391c93/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            zabbix自动发现挂载磁盘-过滤器
+          
+        </div>
+      </a>
     
     
       <a href="/posts/879bfca6/" class="article-nav-link">
