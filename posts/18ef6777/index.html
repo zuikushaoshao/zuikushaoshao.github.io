@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="baidu-site-verification" content="bA5VlfwoNV" />
   <title>
-    zabbix-agent安装 |
+    zabbix 启动报错 cannot set resource limit [13] Permission denied |
     
     酷少少</title>
   
@@ -31,7 +31,7 @@
 <body>
 <main class="content">
   <section class="outer">
-  <article id="post-zabbix/zabbix-agent" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  <article id="post-zabbix/zabbix-agent启动报错" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
     <div class="article-inner">
         
@@ -39,7 +39,7 @@
                 
   
     <h1 class="article-title" itemprop="name">
-      zabbix-agent安装
+      zabbix 启动报错 cannot set resource limit [13] Permission denied
     </h1>
   
   
@@ -52,8 +52,8 @@
 
                 
                     <div class="article-meta">
-                        <a href="/posts/971bc486/" class="article-date">
-  <time datetime="2021-01-25T10:25:03.000Z" itemprop="datePublished">2021-01-25</time>
+                        <a href="/posts/18ef6777/" class="article-date">
+  <time datetime="2021-03-23T08:24:36.000Z" itemprop="datePublished">2021-03-23</time>
 </a>
                             
   <div class="article-category">
@@ -79,27 +79,25 @@
                                             
 
                                                 
-                                                                    <p>zabbix 客户端agent安装部署过程</p>
+                                                                    <p>解决zabbix 启动报错 cannot set resource limit &amp; amp; [13] Permission denied </p>
 <a id="more"></a>
 
-<h3 id="1、下载agent包"><a href="#1、下载agent包" class="headerlink" title="1、下载agent包"></a>1、下载agent包</h3><p>下面是我上传在github的agent包，下载直接用。<br>下载完成上传到需要安装linux主机上。</p>
-<p><a href="https://github.com/zuikushaoshao/bokeCorrelation/raw/main/zabbix/zabbix-agent-4.4.7-1.el7.x86_64.rpm" target="_blank" rel="noopener">zabbix-agent-4.4.7-1.el7.x86_64.rpm</a></p>
-<h3 id="2、安装rpm包"><a href="#2、安装rpm包" class="headerlink" title="2、安装rpm包"></a>2、安装rpm包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ivh zabbix-agent-4.4.7-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<h3 id="1、zabbix启动日志报错如下"><a href="#1、zabbix启动日志报错如下" class="headerlink" title="1、zabbix启动日志报错如下"></a>1、zabbix启动日志报错如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@p-interface2 zabbix]# cat &#x2F;var&#x2F;log&#x2F;zabbix&#x2F;zabbix_agentd.log  </span><br><span class="line">117190:20210323:160026.629 Starting Zabbix Agent [Zabbix server]. Zabbix 4.4.7 (revision 77fb8c7ee0).</span><br><span class="line">117190:20210323:160026.630 **** Enabled features ****</span><br><span class="line">117190:20210323:160026.630 IPv6 support:          YES</span><br><span class="line">117190:20210323:160026.630 TLS support:           YES</span><br><span class="line">117190:20210323:160026.630 **************************</span><br><span class="line">117190:20210323:160026.630 using configuration file: &#x2F;etc&#x2F;zabbix&#x2F;zabbix_agentd.conf</span><br><span class="line">117190:20210323:160026.630 cannot set resource limit: [13] Permission denied</span><br><span class="line">117190:20210323:160026.630 cannot disable core dump, exiting...</span><br><span class="line">117190:20210323:160026.630 Zabbix Agent stopped. Zabbix 4.4.7 (revision 77fb8c7ee0).</span><br></pre></td></tr></table></figure>
 
-<h3 id="3、配置zabbxi-agent"><a href="#3、配置zabbxi-agent" class="headerlink" title="3、配置zabbxi-agent"></a>3、配置zabbxi-agent</h3><h4 id="1、编辑配置文件"><a href="#1、编辑配置文件" class="headerlink" title="1、编辑配置文件"></a>1、编辑配置文件</h4><p><a style="color:red;">zabbix_agentd.conf配置文件要授权写的权限</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;zabbix&#x2F;</span><br><span class="line"></span><br><span class="line">vi zabbix_agentd.conf</span><br></pre></td></tr></table></figure>
 
-<h4 id="2、添加相关信息"><a href="#2、添加相关信息" class="headerlink" title="2、添加相关信息"></a>2、添加相关信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Server&#x3D;**.**.**.**  # 安装zabbix主机</span><br><span class="line">zabbix-server的ip  #用于被动模式，数据获取</span><br><span class="line">#ServerActive&#x3D;192.168.8.11    server的ip &#x2F;&#x2F;用于主动模式，数据提交 可以不用配置</span><br><span class="line">Include&#x3D;&#x2F;etc&#x2F;zabbix&#x2F;zabbix_agentd.d&#x2F;*.conf</span><br><span class="line">UnsafeUserParameters&#x3D;1                   #是否允许自定义的key,1为允许，0为不允许</span><br><span class="line">AllowRoot&#x3D;1 #root运行</span><br></pre></td></tr></table></figure>
 
-<h4 id="3、agent启动、重启、关闭"><a href="#3、agent启动、重启、关闭" class="headerlink" title="3、agent启动、重启、关闭"></a>3、agent启动、重启、关闭</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root~]# systemctl start zabbix-agent   </span><br><span class="line">[root~]# systemctl restart zabbix-agent</span><br><span class="line">[root~]# systemctl enable zabbix-agent</span><br></pre></td></tr></table></figure>
+<h3 id="2、解决方案"><a href="#2、解决方案" class="headerlink" title="2、解决方案"></a>2、解决方案</h3><h4 id="1）修改-etc-selinux-config-文件，关闭-selinux（事先备份文件）"><a href="#1）修改-etc-selinux-config-文件，关闭-selinux（事先备份文件）" class="headerlink" title="1）修改 /etc/selinux/config 文件，关闭 selinux（事先备份文件）"></a>1）修改 /etc/selinux/config 文件，<strong>关闭 selinux</strong>（事先备份文件）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;selinux&#x2F;</span><br><span class="line">cp config config.bak20210323</span><br></pre></td></tr></table></figure>
 
-<h3 id="4、查看主机是否有端口10050，有启动成功"><a href="#4、查看主机是否有端口10050，有启动成功" class="headerlink" title="4、查看主机是否有端口10050，有启动成功"></a>4、查看主机是否有端口10050，有启动成功</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntestat -nltp</span><br></pre></td></tr></table></figure>
+<h4 id="2-修改config配置"><a href="#2-修改config配置" class="headerlink" title="2) 修改config配置"></a>2) 修改config配置</h4><p>将 SELINUX 修改为 <strong>disabled</strong></p>
+<h4 id="3）关闭selinux模式"><a href="#3）关闭selinux模式" class="headerlink" title="3）关闭selinux模式"></a>3）关闭selinux模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@p-interface3 selinux]# setenforce 0</span><br><span class="line">[root@p-interface3 selinux]# getenforce</span><br><span class="line">Permissive</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-重新启动"><a href="#4-重新启动" class="headerlink" title="4) 重新启动"></a>4) 重新启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start zabbix-agent</span><br></pre></td></tr></table></figure>
 
 
                                                                         
                                     </div>
 										<!-- 分享屏蔽掉 <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/posts/971bc486/" data-id="ckmlro06f001a5wfc3qyzejw8" class="article-share-link">
+                                        <a data-url="http://yoursite.com/posts/18ef6777/" data-id="ckmlro06g001b5wfc8ad5g38o" class="article-share-link">
                                             分享
                                         </a>
                                         
@@ -112,19 +110,10 @@
         
   <nav class="article-nav">
     
-      <a href="/posts/6fa1df26/" class="article-nav-link">
-        <strong class="article-nav-caption">前一篇</strong>
-        <div class="article-nav-title">
-          
-            zabbix-agent自定义模板常用监控
-          
-        </div>
-      </a>
     
-    
-      <a href="/posts/ebf15616/" class="article-nav-link">
+      <a href="/posts/987443be/" class="article-nav-link">
         <strong class="article-nav-caption">后一篇</strong>
-        <div class="article-nav-title">shell脚本处理换行符</div>
+        <div class="article-nav-title">SpringBean生命周期、循环依赖</div>
       </a>
     
   </nav>
