@@ -65,37 +65,6 @@
       </categories>
   </entry>
   <entry>
-    <title>SpringBean生命周期、循环依赖</title>
-    <url>/posts/987443be/</url>
-    <content><![CDATA[<h2 id="SpringBean生命周期"><a href="#SpringBean生命周期" class="headerlink" title="SpringBean生命周期"></a>SpringBean生命周期</h2><p>class—&gt;推断构造方法—&gt;实例化—&gt;对象—&gt;属性填充—&gt;afterPropertiesSet()—&gt;AOP—&gt;代理对象对象—&gt;Bean</p>
-<p><strong>推断构造方法</strong>：</p>
-<ol>
-<li><p>根据构造方法来实例化对象</p>
-</li>
-<li><p>如果是多个构造方法那么默认是根据无参，也可以给构造方法加@Autowired指定有参构造方法</p>
-<img src="\gallery\photos\spring\源码学习\1、Bean生命周期构造方法.jpg" alt=" " style="zoom:200%;" />
-
-</li>
-</ol>
-<p><strong>属性填充</strong>：是实例化对象里面的属性填充。</p>
-<ol>
-<li>@Autowired:先根据byType找—&gt;@Qualifier  指定name @Primary 主Bean @Priority 优先级—&gt;byName</li>
-<li>@Resource:先根据byName找—&gt;只有一个用否则报错—&gt;byType</li>
-</ol>
-<p><strong>区别</strong>：如果在方法上注入Autowired会在参数的名字找，而Resource是根据setXX中的XX来找</p>
-<p><strong>afterPropertiesSet()</strong>：没有注解@Autowired的属性，当Spring填充完注解中的属性，在执行这个方填放值，初始化后填充的属性</p>
-<img src="\gallery\photos\spring\源码学习\2、Bean生命周期属性填充初始化后.jpg" alt=" " style="zoom:200%;" />
-
-<p><strong>AOP</strong>：是生成一个代理对象，跟实例化后的对象一样，代理对象是赋值，最后拿到的是代理对象</p>
-]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zabbix自动发现挂载磁盘-过滤器</title>
     <url>/posts/f6391c93/</url>
     <content><![CDATA[<p> ZABBIX动态发现磁盘监控，排除掉不需要监控的目录，如/var，/mnt</p>
